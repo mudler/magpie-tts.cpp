@@ -49,6 +49,7 @@ endif()
 add_subdirectory(third_party/ggml)
 
 set(MAGPIE_SOURCES
+    src/backend.cpp
     src/common.cpp
     src/model_loader.cpp
     src/tokenizer.cpp

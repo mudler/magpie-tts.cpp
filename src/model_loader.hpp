@@ -11,6 +11,10 @@
 struct ggml_context;
 struct gguf_context;
 struct ggml_tensor;
+struct ggml_backend;
+typedef struct ggml_backend* ggml_backend_t;
+struct ggml_backend_buffer;
+typedef struct ggml_backend_buffer* ggml_backend_buffer_t;
 
 // Per-stack transformer dims (text encoder / decoder / local transformer).
 // All three stacks are instances of NeMo's transformer_2501.Transformer:
@@ -162,10 +166,22 @@ struct magpie_model {
     ggml_context* ctx  = nullptr;  // owns the weight data (no_alloc=false)
     gguf_context* gguf = nullptr;  // KV + full tensor names (kept for the tokenizer)
     magpie_hparams hparams;
-    // Keyed by FULL GGUF names. 270 of the 535 names are >= GGML_MAX_NAME(64)
-    // chars (max 102), so this map is built by pairing gguf_get_tensor_name(i)
-    // with the i-th ggml tensor -- NEVER via ggml_get_tensor / tensor->name.
+    // COMPUTE tensors, keyed by FULL GGUF names. 270 of the 535 names are
+    // >= GGML_MAX_NAME(64) chars (max 102), so this map is built by pairing
+    // gguf_get_tensor_name(i) with the i-th ggml tensor -- NEVER via
+    // ggml_get_tensor / tensor->name. After upload_weights() to a device
+    // backend the values are the DEVICE-resident copies (except the g2p byte
+    // blobs, which never enter a graph and stay host).
     mg::tensor_map tensors;
+    // HOST tensors (the gguf ctx originals), always CPU-readable via ->data.
+    // Raw-float readers (embed_stack, baked speaker context, snake-alpha
+    // reciprocals, tokenizer/g2p resources) must use these, never `tensors`.
+    mg::tensor_map host_tensors;
+
+    // Device weight storage (upload_weights on a non-CPU backend); nullptr on
+    // the CPU path, where `tensors` aliases the host tensors.
+    ggml_context*         device_ctx  = nullptr;
+    ggml_backend_buffer_t weights_buf = nullptr;
 
     magpie_model() = default;
     magpie_model(const magpie_model&) = delete;
@@ -177,6 +193,15 @@ struct magpie_model {
     // g2p blobs). Throws std::runtime_error listing everything that is missing.
     void load(const std::string& path);
 
+    // Make the weights usable by graphs running on `backend`: a no-op for CPU
+    // backends (graphs read the host tensors in place); for a device backend,
+    // mirrors every graph-visible tensor into a backend buffer, uploads the
+    // bytes, and repoints `tensors` at the device copies (host_tensors keeps
+    // the host originals for raw readers). Idempotent; throws on failure.
+    void upload_weights(ggml_backend_t backend);
+
     ggml_tensor* tensor(const std::string& full_name) const;          // nullptr if absent
     ggml_tensor* require_tensor(const std::string& full_name) const;  // throws if absent
+    ggml_tensor* host_tensor(const std::string& full_name) const;
+    ggml_tensor* require_host_tensor(const std::string& full_name) const;
 };

@@ -11,12 +11,13 @@
 // compare the finite entries; the -inf positions are checked against the
 // expected forbidden set.
 #include "parity.hpp"
+#include "backend.hpp"
 #include "local_transformer.hpp"
 #include "model_loader.hpp"
 #include "ggml.h"
-#include "ggml-cpu.h"
 #include <cmath>
 #include <cstring>
+#include <exception>
 #include <set>
 #include <string>
 #include <vector>
@@ -26,25 +27,22 @@ namespace {
 constexpr int64_t D = 768;
 constexpr float CFG_SCALE = 2.5f;
 
+// Backend selected by MAGPIE_DEVICE (default cpu), owned by main.
+mg::backend* g_be = nullptr;
+
 std::vector<float> run_lt_step(const magpie_model& m, const std::vector<float>& latent,
                                const int32_t* toks, int32_t n_tokens) {
-    ggml_init_params params{ (size_t)256 * 1024 * 1024, nullptr, /*no_alloc=*/false };
-    ggml_context* ctx = ggml_init(params);
-    if (!ctx) { std::fprintf(stderr, "[lt] ggml_init failed\n"); std::exit(1); }
-    ggml_cgraph* graph = ggml_new_graph_custom(ctx, 2048, false);
-
-    ggml_tensor* lat = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, D, 2);
-    std::memcpy(lat->data, latent.data(), latent.size() * sizeof(float));
-
-    ggml_tensor* logits = magpie_lt_step_graph(ctx, graph, m, lat, toks, n_tokens);
-    if (ggml_graph_compute_with_ctx(ctx, graph, 4) != GGML_STATUS_SUCCESS) {
-        std::fprintf(stderr, "[lt] graph compute failed\n");
+    mg::graph_session s(*g_be, 2048);
+    ggml_tensor* lat = s.input(ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, D, 2),
+                               latent.data());
+    ggml_tensor* logits = magpie_lt_step_graph(s.ctx, s.graph, m, lat, toks, n_tokens);
+    try {
+        s.compute(4);
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "[lt] %s\n", e.what());
         std::exit(1);
     }
-    std::vector<float> out((size_t)ggml_nelements(logits));
-    std::memcpy(out.data(), logits->data, out.size() * sizeof(float));
-    ggml_free(ctx);
-    return out;
+    return s.read_f32(logits);
 }
 
 // Compares got vs ref skipping ref -inf entries, and verifies the -inf set is
@@ -59,7 +57,7 @@ bool compare_masked(const std::vector<float>& got, const std::vector<float>& ref
     // Logits reach |x| ~ 40 and the CFG combination (2.5*cond - 1.5*uncond)
     // amplifies f32 accumulation noise ~4x: observed max|d| 1.1e-4 at
     // relative error ~3e-6, so a small rtol tops up the 1e-4 atol.
-    const float rtol = 1e-5f;
+    const float rtol = 1e-5f * mgtest::tol_scale();
     std::vector<float> gf, rf;
     bool mask_ok = true;
     for (size_t i = 0; i < ref.size(); ++i) {
@@ -88,8 +86,13 @@ int main() {
     const std::string model_path = mgtest::env_or_skip("MAGPIE_MODEL");
     const std::string ref_path   = mgtest::ref_dump_or_skip();
 
+    mg::backend be;   // before the model: outlives its device weight buffer
+    be.init(4);
+    g_be = &be;
+
     magpie_model model;
     model.load(model_path);
+    model.upload_weights(be.handle());
     const magpie_hparams& hp = model.hparams;
     const int64_t n_tok = hp.audio.tokens_per_codebook;  // 2024
 
@@ -105,7 +108,7 @@ int main() {
     std::set<int32_t> forbidden_step0 = forbidden_base;
     forbidden_step0.insert((int32_t)hp.audio.eos_id);
 
-    const float atol = 1e-4f;
+    const float atol = 1e-4f * mgtest::tol_scale();
     bool ok = true;
 
     for (const int step : {0, 5}) {

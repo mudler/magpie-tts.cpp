@@ -16,12 +16,13 @@
 //   4. KV-cache self-consistency: step 0 full + 1 incremental row == full
 //      recompute of the 219-row input.
 #include "parity.hpp"
+#include "backend.hpp"
 #include "decoder.hpp"
 #include "prior.hpp"
 #include "model_loader.hpp"
 #include "ggml.h"
-#include "ggml-cpu.h"
 #include <cstring>
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -29,12 +30,16 @@ namespace {
 
 constexpr int64_t D = 768;
 
+// Backend selected by MAGPIE_DEVICE (default cpu); created in main before the
+// model so it outlives the model's device weight buffer.
+mg::backend* g_be = nullptr;
+
 // Mean of the 16 audio-embedding table rows (table k = c + i*8, token order
-// matching NeMo's embed_audio_tokens accumulation), divided by 16.
+// matching NeMo's embed_audio_tokens accumulation), divided by 16. Host read.
 std::vector<float> embed_stack(const magpie_model& m, const int32_t* toks16) {
     std::vector<float> out(D, 0.0f);
     for (int k = 0; k < 16; ++k) {
-        ggml_tensor* t = m.require_tensor("audio_embeddings." + std::to_string(k) + ".weight");
+        ggml_tensor* t = m.require_host_tensor("audio_embeddings." + std::to_string(k) + ".weight");
         const float* row = (const float*)t->data + (size_t)toks16[k] * D;
         for (int64_t j = 0; j < D; ++j) out[j] += row[j];
     }
@@ -74,56 +79,51 @@ struct dec_result {
     std::vector<std::vector<float>> xattn;  // per estimate layer, flat [t_text * n_stream]
 };
 
-// Builds + computes one decoder step. memory_cond (t_text*768, conditional
-// stream) is required only while the cache's cross K/V are not yet filled.
+// Builds + computes one decoder step on g_be. memory_cond (t_text*768,
+// conditional stream) is required only while the cross K/V are not yet filled.
 dec_result run_dec_step(const magpie_model& m, magpie_dec_kv_cache& cache,
                         const std::vector<float>& dec_in_flat, int64_t n_new,
                         const std::vector<float>* memory_cond, int64_t t_text,
                         const std::vector<float>* prior_flat) {
-    ggml_init_params params{ (size_t)3 * 1024 * 1024 * 1024, nullptr, /*no_alloc=*/false };
-    ggml_context* ctx = ggml_init(params);
-    if (!ctx) { std::fprintf(stderr, "[dec] ggml_init failed\n"); std::exit(1); }
-    ggml_cgraph* graph = ggml_new_graph_custom(ctx, 8192, false);
+    mg::graph_session s(*g_be, 8192);
 
-    ggml_tensor* dec_in = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, D, n_new, 2);
-    std::memcpy(dec_in->data, dec_in_flat.data(), dec_in_flat.size() * sizeof(float));
+    ggml_tensor* dec_in = s.input(
+        ggml_new_tensor_3d(s.ctx, GGML_TYPE_F32, D, n_new, 2), dec_in_flat.data());
 
+    std::vector<float> mem_host, mask_host;                  // outlive compute()
     ggml_tensor* memory = nullptr;
     if (!cache.cross_valid) {
-        memory = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, D, t_text, 2);
-        std::memset(memory->data, 0, ggml_nbytes(memory));               // uncond = zeros
-        std::memcpy(memory->data, memory_cond->data(), memory_cond->size() * sizeof(float));
+        mem_host.assign((size_t)2 * t_text * D, 0.0f);       // uncond = zeros
+        std::memcpy(mem_host.data(), memory_cond->data(),
+                    memory_cond->size() * sizeof(float));
+        memory = s.input(ggml_new_tensor_3d(s.ctx, GGML_TYPE_F32, D, t_text, 2),
+                         mem_host.data());
     }
-    ggml_tensor* mask = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, t_text, 2);
-    {
-        float* md = (float*)mask->data;
-        for (int64_t t = 0; t < t_text; ++t) md[t] = 1.0f;               // cond: all kept
-        for (int64_t t = 0; t < t_text; ++t) md[t_text + t] = (t == 0) ? 1.0f : 0.0f;
-    }
+    mask_host.assign((size_t)2 * t_text, 0.0f);
+    for (int64_t t = 0; t < t_text; ++t) mask_host[t] = 1.0f;  // cond: all kept
+    mask_host[t_text] = 1.0f;                                  // uncond: position 0 only
+    ggml_tensor* mask = s.input(ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, t_text, 2),
+                                mask_host.data());
     ggml_tensor* prior = nullptr;
     if (prior_flat) {
-        prior = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, t_text, 2);
-        std::memcpy(prior->data, prior_flat->data(), prior_flat->size() * sizeof(float));
+        prior = s.input(ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, t_text, 2),
+                        prior_flat->data());
     }
 
-    magpie_dec_step_out out = magpie_decoder_step_graph(ctx, graph, m, dec_in,
+    magpie_dec_step_out out = magpie_decoder_step_graph(s.ctx, s.graph, m, dec_in,
                                                         memory, mask, prior, cache);
-    if (ggml_graph_compute_with_ctx(ctx, graph, 4) != GGML_STATUS_SUCCESS) {
-        std::fprintf(stderr, "[dec] graph compute failed\n");
+    try {
+        s.compute(4);
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "[dec] %s\n", e.what());
         std::exit(1);
     }
 
-    auto grab = [](const ggml_tensor* t) {
-        std::vector<float> v((size_t)ggml_nelements(t));
-        std::memcpy(v.data(), t->data, v.size() * sizeof(float));
-        return v;
-    };
     dec_result r;
-    r.hidden = grab(out.hidden);
-    r.latent = grab(out.latent);
-    r.logits = grab(out.logits);
-    for (ggml_tensor* xp : out.xattn_probs) r.xattn.push_back(grab(xp));
-    ggml_free(ctx);
+    r.hidden = s.read_f32(out.hidden);
+    r.latent = s.read_f32(out.latent);
+    r.logits = s.read_f32(out.logits);
+    for (ggml_tensor* xp : out.xattn_probs) r.xattn.push_back(s.read_f32(xp));
     return r;
 }
 
@@ -133,8 +133,13 @@ int main() {
     const std::string model_path = mgtest::env_or_skip("MAGPIE_MODEL");
     const std::string ref_path   = mgtest::ref_dump_or_skip();
 
+    mg::backend be;   // before the model: outlives its device weight buffer
+    be.init(4);
+    g_be = &be;
+
     magpie_model model;
     model.load(model_path);
+    model.upload_weights(be.handle());
     const magpie_hparams& hp = model.hparams;
 
     std::vector<int64_t> shape;
@@ -149,7 +154,10 @@ int main() {
     std::fprintf(stderr, "[dec] t_text=%lld frames=%lld\n",
                  (long long)t_text, (long long)n_frames);
 
-    const float atol = 1e-4f, rtol = 0.0f;
+    // GPU runs scale the graph-output gates (MAGPIE_PARITY_TOL_SCALE); the
+    // host-side gates (input reconstruction, prior logic) stay exact.
+    const float scale = mgtest::tol_scale();
+    const float atol = 1e-4f * scale, rtol = 0.0f;
     bool ok = true;
     std::vector<float> ref;
 
@@ -170,7 +178,7 @@ int main() {
     const int64_t T0 = shape[1];  // shape outer..inner = [2, T, 768]
 
     magpie_dec_kv_cache cache;
-    cache.init(model, 512, 2);
+    cache.init(model, 512, 2, be.handle());
     dec_result r0 = run_dec_step(model, cache, dump_in0, T0, &enc_out, t_text, nullptr);
 
     if (!mgtest::load_baseline(ref_path, "dec.step0.out", ref, shape)) return 1;
@@ -246,14 +254,14 @@ int main() {
                         emb.data(), emb.size() * sizeof(float));
         }
         magpie_dec_kv_cache cache2;
-        cache2.init(model, 512, 2);
+        cache2.init(model, 512, 2, be.handle());
         dec_result r_full = run_dec_step(model, cache2, full_in, T0 + 1,
                                          &enc_out, t_text, nullptr);
 
         ok &= mgtest::compare(r_inc.latent, r_full.latent,
-                              "kv-cache latent (incremental vs full)", 1e-4f, 0.0f);
+                              "kv-cache latent (incremental vs full)", atol, 0.0f);
         ok &= mgtest::compare(r_inc.logits, r_full.logits,
-                              "kv-cache logits (incremental vs full)", 1e-4f, 0.0f);
+                              "kv-cache logits (incremental vs full)", atol, 0.0f);
     }
 
     if (!ok) {

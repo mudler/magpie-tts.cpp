@@ -5,9 +5,10 @@
 #include <cmath>
 #include <string>
 
-// See the note in encoder.cpp: builders assume a data-allocating (no_alloc =
-// false) CPU ggml context. Token embeddings are taken as zero-copy row views
-// of the audio_embeddings tables, so no input tensors are created here.
+// See the note in encoder.cpp: builders are context-agnostic (no_alloc +
+// gallocr on any backend, or a legacy data-allocating CPU context). Token
+// embeddings are taken as zero-copy row views of the audio_embeddings tables
+// (host or device resident), so no input tensors are created here.
 
 namespace {
 
@@ -126,6 +127,7 @@ ggml_tensor* magpie_lt_step_graph(ggml_context* ctx, ggml_cgraph* graph,
     const std::string head = "local_transformer_out_projections." + std::to_string(n_tokens);
     ggml_tensor* logits = ggml_mul_mat(ctx, model.require_tensor(head + ".weight"), last);
     logits = ggml_add(ctx, logits, model.require_tensor(head + ".bias"));
+    ggml_set_output(logits);
     ggml_build_forward_expand(graph, logits);
     return logits;
 }

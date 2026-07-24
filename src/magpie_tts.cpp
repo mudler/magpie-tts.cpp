@@ -11,6 +11,7 @@
 // accepted approximation (doc section 3.7). magpie_tts_replay::use_kv_cache =
 // false reproduces the uncached reference behavior for parity isolation.
 #include "magpie_tts.h"
+#include "backend.hpp"
 #include "common.hpp"
 #include "model_loader.hpp"
 #include "tokenizer.hpp"
@@ -20,7 +21,6 @@
 #include "prior.hpp"
 #include "codec.hpp"
 #include "ggml.h"
-#include "ggml-cpu.h"
 
 #include <algorithm>
 #include <array>
@@ -40,6 +40,7 @@ const char* magpie_tts_version() {
 }
 
 struct magpie_tts_context {
+    mg::backend      compute;   // declared FIRST: outlives the model's device buffer
     magpie_model     model;
     magpie_tokenizer tokenizer;
     bool             tokenizer_ready = false;
@@ -47,7 +48,9 @@ struct magpie_tts_context {
 
 magpie_tts_context* magpie_tts_load(const std::string& gguf_path) {
     std::unique_ptr<magpie_tts_context> ctx(new magpie_tts_context());
+    ctx->compute.init();         // device from MAGPIE_DEVICE (default: cpu)
     ctx->model.load(gguf_path);  // throws std::runtime_error on failure
+    ctx->model.upload_weights(ctx->compute.handle());  // no-op on CPU
     return ctx.release();
 }
 
@@ -82,36 +85,26 @@ int resolve_threads(const magpie_tts_options& opts) {
 }
 
 // Text encoder, run once per utterance. Returns [t_text * d_model] row-major.
-std::vector<float> run_encoder(const magpie_model& model,
+std::vector<float> run_encoder(mg::backend& be, const magpie_model& model,
                                const std::vector<int32_t>& ids, int n_threads) {
-    ggml_init_params params{ (size_t)512 * 1024 * 1024, nullptr, /*no_alloc=*/false };
-    ggml_context* ctx = ggml_init(params);
-    if (!ctx) throw std::runtime_error("magpie: encoder ggml_init failed");
-    ggml_cgraph* graph = ggml_new_graph_custom(ctx, 4096, false);
-
-    ggml_tensor* tokens = ggml_new_tensor_1d(ctx, GGML_TYPE_I32, (int64_t)ids.size());
-    std::memcpy(tokens->data, ids.data(), ids.size() * sizeof(int32_t));
-
-    ggml_tensor* enc_out = magpie_encoder_graph(ctx, graph, model, tokens);
-    if (ggml_graph_compute_with_ctx(ctx, graph, n_threads) != GGML_STATUS_SUCCESS) {
-        ggml_free(ctx);
-        throw std::runtime_error("magpie: encoder graph compute failed");
-    }
-    std::vector<float> out((size_t)ggml_nelements(enc_out));
-    std::memcpy(out.data(), enc_out->data, out.size() * sizeof(float));
-    ggml_free(ctx);
-    return out;
+    mg::graph_session s(be, /*graph_nodes=*/4096);
+    ggml_tensor* tokens = s.input(
+        ggml_new_tensor_1d(s.ctx, GGML_TYPE_I32, (int64_t)ids.size()), ids.data());
+    ggml_tensor* enc_out = magpie_encoder_graph(s.ctx, s.graph, model, tokens);
+    s.compute(n_threads);
+    return s.read_f32(enc_out);
 }
 
 // Decoder-input embedding of one frame stack: mean of the 16 audio_embeddings
 // table rows (table k = c + i*C) divided by 16 (C*S, NOT C -- gotcha 5).
+// Reads the HOST copies of the tables (kept f32 in every GGUF).
 std::vector<float> embed_stack(const magpie_model& model, const int32_t* toks16) {
     const int64_t D = model.hparams.d_model;
     const int n_tab = (int)model.hparams.audio.num_embedding_tables;
     std::vector<float> out((size_t)D, 0.0f);
     for (int k = 0; k < n_tab; ++k) {
-        ggml_tensor* t = model.require_tensor("audio_embeddings." + std::to_string(k) +
-                                              ".weight");
+        ggml_tensor* t = model.require_host_tensor("audio_embeddings." +
+                                                   std::to_string(k) + ".weight");
         const float* row = (const float*)t->data + (size_t)toks16[k] * D;
         for (int64_t j = 0; j < D; ++j) out[j] += row[j];
     }
@@ -125,91 +118,71 @@ struct dec_step_result {
     std::vector<std::vector<float>> xattn;   // per estimate layer, [t_text*n_heads*n_stream]
 };
 
-// Builds + computes one decoder step (fresh ggml context per step, matching
-// the parity tests: no_alloc=false CPU ctx + ggml_graph_compute_with_ctx).
+// Builds + computes one decoder step (fresh metadata context per step; the
+// backend's persistent gallocr keeps the compute buffer alive across steps).
 // memory_cond is consulted only while the cache's cross K/V are not yet
 // filled (uncond stream memory = zeros; mask keeps only position 0).
-dec_step_result run_dec_step(const magpie_model& model, magpie_dec_kv_cache& cache,
+dec_step_result run_dec_step(mg::backend& be, const magpie_model& model,
+                             magpie_dec_kv_cache& cache,
                              const std::vector<float>& dec_in_flat, int64_t n_new,
                              const std::vector<float>* memory_cond, int64_t t_text,
                              const std::vector<float>* prior_flat,
                              int n_stream, int n_threads) {
     const int64_t D = model.hparams.d_model;
-    // n_new > 1 only for the (context+BOS) step / full-sequence replay steps,
-    // whose intermediates are ~n_new x bigger.
-    const size_t ctx_bytes = n_new > 8 ? (size_t)4 * 1024 * 1024 * 1024
-                                       : (size_t)512 * 1024 * 1024;
-    ggml_init_params params{ ctx_bytes, nullptr, /*no_alloc=*/false };
-    ggml_context* ctx = ggml_init(params);
-    if (!ctx) throw std::runtime_error("magpie: decoder ggml_init failed");
-    ggml_cgraph* graph = ggml_new_graph_custom(ctx, 8192, false);
+    mg::graph_session s(be, /*graph_nodes=*/8192);
 
-    ggml_tensor* dec_in = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, D, n_new, n_stream);
-    std::memcpy(dec_in->data, dec_in_flat.data(), dec_in_flat.size() * sizeof(float));
+    ggml_tensor* dec_in = s.input(
+        ggml_new_tensor_3d(s.ctx, GGML_TYPE_F32, D, n_new, n_stream),
+        dec_in_flat.data());
 
+    // host staging buffers must stay alive until s.compute() uploads them
+    std::vector<float> mem_host, mask_host;
     ggml_tensor* memory = nullptr;
     if (!cache.cross_valid) {
-        memory = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, D, t_text, n_stream);
-        std::memset(memory->data, 0, ggml_nbytes(memory));  // uncond stream = zeros
-        std::memcpy(memory->data, memory_cond->data(),
+        mem_host.assign((size_t)n_stream * t_text * D, 0.0f);  // uncond stream = zeros
+        std::memcpy(mem_host.data(), memory_cond->data(),
                     memory_cond->size() * sizeof(float));
+        memory = s.input(
+            ggml_new_tensor_3d(s.ctx, GGML_TYPE_F32, D, t_text, n_stream),
+            mem_host.data());
     }
-    ggml_tensor* mask = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, t_text, n_stream);
-    {
-        float* md = (float*)mask->data;
-        for (int64_t t = 0; t < t_text; ++t) md[t] = 1.0f;  // cond: all kept
-        for (int s = 1; s < n_stream; ++s)                  // uncond: position 0 only
-            for (int64_t t = 0; t < t_text; ++t)
-                md[(size_t)s * t_text + t] = (t == 0) ? 1.0f : 0.0f;
-    }
+    mask_host.assign((size_t)n_stream * t_text, 0.0f);
+    for (int64_t t = 0; t < t_text; ++t) mask_host[t] = 1.0f;  // cond: all kept
+    for (int st = 1; st < n_stream; ++st)                      // uncond: position 0 only
+        mask_host[(size_t)st * t_text] = 1.0f;
+    ggml_tensor* mask = s.input(
+        ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, t_text, n_stream), mask_host.data());
+
     ggml_tensor* prior = nullptr;
     if (prior_flat) {
-        prior = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, t_text, n_stream);
-        std::memcpy(prior->data, prior_flat->data(), prior_flat->size() * sizeof(float));
+        prior = s.input(
+            ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, t_text, n_stream),
+            prior_flat->data());
     }
 
-    magpie_dec_step_out out = magpie_decoder_step_graph(ctx, graph, model, dec_in,
+    magpie_dec_step_out out = magpie_decoder_step_graph(s.ctx, s.graph, model, dec_in,
                                                         memory, mask, prior, cache);
-    if (ggml_graph_compute_with_ctx(ctx, graph, n_threads) != GGML_STATUS_SUCCESS) {
-        ggml_free(ctx);
-        throw std::runtime_error("magpie: decoder graph compute failed");
-    }
+    s.compute(n_threads);
 
-    auto grab = [](const ggml_tensor* t) {
-        std::vector<float> v((size_t)ggml_nelements(t));
-        std::memcpy(v.data(), t->data, v.size() * sizeof(float));
-        return v;
-    };
     dec_step_result r;
-    r.latent = grab(out.latent);
-    r.logits = grab(out.logits);
-    for (ggml_tensor* xp : out.xattn_probs) r.xattn.push_back(grab(xp));
-    ggml_free(ctx);
+    r.latent = s.read_f32(out.latent);
+    r.logits = s.read_f32(out.logits);
+    for (ggml_tensor* xp : out.xattn_probs) r.xattn.push_back(s.read_f32(xp));
     return r;
 }
 
 // One LT micro-step: logits of head n_tokens, [tokens_per_codebook * n_stream].
-std::vector<float> run_lt_step(const magpie_model& model, const std::vector<float>& latent,
+std::vector<float> run_lt_step(mg::backend& be, const magpie_model& model,
+                               const std::vector<float>& latent,
                                const int32_t* toks, int32_t n_tokens,
                                int n_stream, int n_threads) {
     const int64_t D = model.hparams.d_model;
-    ggml_init_params params{ (size_t)256 * 1024 * 1024, nullptr, /*no_alloc=*/false };
-    ggml_context* ctx = ggml_init(params);
-    if (!ctx) throw std::runtime_error("magpie: LT ggml_init failed");
-    ggml_cgraph* graph = ggml_new_graph_custom(ctx, 2048, false);
-
-    ggml_tensor* lat = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, D, n_stream);
-    std::memcpy(lat->data, latent.data(), latent.size() * sizeof(float));
-
-    ggml_tensor* logits = magpie_lt_step_graph(ctx, graph, model, lat, toks, n_tokens);
-    if (ggml_graph_compute_with_ctx(ctx, graph, n_threads) != GGML_STATUS_SUCCESS) {
-        ggml_free(ctx);
-        throw std::runtime_error("magpie: LT graph compute failed");
-    }
-    std::vector<float> out((size_t)ggml_nelements(logits));
-    std::memcpy(out.data(), logits->data, out.size() * sizeof(float));
-    ggml_free(ctx);
-    return out;
+    mg::graph_session s(be, /*graph_nodes=*/2048);
+    ggml_tensor* lat = s.input(
+        ggml_new_tensor_2d(s.ctx, GGML_TYPE_F32, D, n_stream), latent.data());
+    ggml_tensor* logits = magpie_lt_step_graph(s.ctx, s.graph, model, lat, toks, n_tokens);
+    s.compute(n_threads);
+    return s.read_f32(logits);
 }
 
 // clear_forbidden_logits: -inf on all special tokens except EOS; EOS too while
@@ -332,13 +305,13 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
     const int64_t t_text = (int64_t)ids.size();
 
     // ---- encoder (once per utterance) ----
-    const std::vector<float> enc_out = run_encoder(model, ids, n_threads);
+    const std::vector<float> enc_out = run_encoder(ctx.compute, model, ids, n_threads);
     const double encode_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t_enc0).count();
 
-    // ---- baked speaker context ----
+    // ---- baked speaker context (host-side raw read) ----
     const int64_t T_ctx = hp.dec_context_size;  // 217
-    ggml_tensor* baked = model.require_tensor("baked_context_embedding.weight");
+    ggml_tensor* baked = model.require_host_tensor("baked_context_embedding.weight");
     const float* ctx_baked = (const float*)baked->data + (size_t)spk * T_ctx * D;
 
     // ---- loop bookkeeping ----
@@ -349,7 +322,8 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
     const int32_t n_steps_max = replaying ? teacher_stacks + 1 : max_frames / S;
 
     magpie_dec_kv_cache cache;
-    cache.init(model, (int32_t)T_ctx + 1 + n_steps_max + 2, n_stream);
+    cache.init(model, (int32_t)T_ctx + 1 + n_steps_max + 2, n_stream,
+               ctx.compute.handle());
 
     std::mt19937 rng(options.seed != 0
         ? (uint32_t)options.seed
@@ -408,8 +382,8 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
         const std::vector<float>* prior = (hp.prior.apply && !prior_vec.empty())
             ? &prior_vec : nullptr;
 
-        dec_step_result r = run_dec_step(model, cache, dec_in, n_new, &enc_out,
-                                         t_text, prior, n_stream, n_threads);
+        dec_step_result r = run_dec_step(ctx.compute, model, cache, dec_in, n_new,
+                                         &enc_out, t_text, prior, n_stream, n_threads);
         cache.n_past += (int32_t)n_new;
         ++res.n_steps;
 
@@ -466,8 +440,8 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
             // local transformer: 16 sequential CFG-combined top-k samples
             const auto t_lt = std::chrono::steady_clock::now();
             for (int32_t k = 0; k < n_cb; ++k) {
-                std::vector<float> lg = run_lt_step(model, r.latent, toks.data(), k,
-                                                    n_stream, n_threads);
+                std::vector<float> lg = run_lt_step(ctx.compute, model, r.latent,
+                                                    toks.data(), k, n_stream, n_threads);
                 std::vector<float> lgc(lg.begin(),
                                        lg.begin() + au.tokens_per_codebook);
                 if (use_cfg)
@@ -545,7 +519,8 @@ std::vector<float> magpie_tts_synthesize(magpie_tts_context& ctx,
                                  std::to_string(out.n_frames) +
                                  " frames (codec needs >= 4)");
     const auto t_codec = std::chrono::steady_clock::now();
-    std::vector<float> pcm = codec_decode(ctx.model, out.codes.data(), out.n_frames);
+    std::vector<float> pcm = codec_decode(ctx.model, out.codes.data(), out.n_frames,
+                                          &ctx.compute);
     if (options.stats) {
         magpie_tts_stats& st = *options.stats;
         st.codec_ms = std::chrono::duration<double, std::milli>(

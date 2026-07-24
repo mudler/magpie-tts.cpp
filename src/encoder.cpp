@@ -5,11 +5,11 @@
 #include <cmath>
 #include <string>
 
-// NOTE: the graph builders assume a data-allocating (no_alloc = false) ggml
-// context on the CPU backend: intermediate tensors get their data inline and
-// the caller runs ggml_graph_compute_with_ctx. This is the correctness-first
-// path; a gallocr-based orchestrator can adopt these builders unchanged as
-// long as it allocates before compute.
+// NOTE: the graph builders are context-agnostic: they work in a no_alloc
+// metadata context placed by ggml_gallocr on any backend (mg::graph_session,
+// the production path -- every returned/captured tensor is flagged as a graph
+// OUTPUT so the allocator keeps its storage until readback) as well as in a
+// legacy data-allocating CPU context.
 
 namespace {
 
@@ -115,6 +115,7 @@ ggml_tensor* magpie_encoder_graph(ggml_context* ctx, ggml_cgraph* graph,
 
         if (layer_outputs) {
             layer_outputs->push_back(x);
+            ggml_set_output(x);  // keep readable under a gallocr
             ggml_build_forward_expand(graph, x);
         }
     }
@@ -122,6 +123,7 @@ ggml_tensor* magpie_encoder_graph(ggml_context* ctx, ggml_cgraph* graph,
     if (st.apply_norm_out) {
         x = layer_norm(ctx, x, model.require_tensor("encoder.norm_out.weight"), hp.norm_eps);
     }
+    ggml_set_output(x);
     ggml_build_forward_expand(graph, x);
     return x;
 }

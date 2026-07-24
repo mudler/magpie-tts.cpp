@@ -27,12 +27,17 @@
 struct ggml_context;
 struct ggml_cgraph;
 struct ggml_tensor;
+struct ggml_backend;
+typedef struct ggml_backend* ggml_backend_t;
+struct ggml_backend_buffer;
+typedef struct ggml_backend_buffer* ggml_backend_buffer_t;
 struct magpie_model;
 
 // Self-attention K/V cache (+ per-utterance cross-attention K/V) for the
 // decoder. n_stream is the CFG batch (2 = conditional + unconditional).
 struct magpie_dec_kv_cache {
-    ggml_context* ctx = nullptr;  // owns the cache tensors
+    ggml_context* ctx = nullptr;  // owns the cache tensor metadata (+ data on CPU)
+    ggml_backend_buffer_t buf = nullptr;  // device storage (non-CPU backend only)
 
     // per decoder layer, F32:
     std::vector<ggml_tensor*> self_k;   // [d_head*n_heads, capacity, n_stream]
@@ -52,8 +57,12 @@ struct magpie_dec_kv_cache {
     int32_t t_text        = 0;
     int32_t text_capacity = 0;
 
-    // Allocates the cache tensors for `capacity` positions. Throws on OOM.
-    void init(const magpie_model& model, int32_t capacity, int32_t n_stream = 2);
+    // Allocates the cache tensors for `capacity` positions. `backend` selects
+    // where the storage lives: nullptr or a CPU backend keeps the historical
+    // host allocation; a device backend (CUDA) puts the K/V rows in a device
+    // buffer so the step graphs never leave the GPU. Throws on OOM.
+    void init(const magpie_model& model, int32_t capacity, int32_t n_stream = 2,
+              ggml_backend_t backend = nullptr);
     // New utterance: n_past = 0 and the cross-attn K/V are invalidated.
     void reset();
     void free();

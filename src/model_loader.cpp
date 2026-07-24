@@ -1,8 +1,13 @@
 #include "model_loader.hpp"
 #include "ggml.h"
+#include "ggml-alloc.h"
+#include "ggml-backend.h"
+#include "ggml-cpu.h"    // ggml_backend_is_cpu
 #include "gguf.h"
 #include <cstring>
 #include <stdexcept>
+#include <utility>
+#include <vector>
 
 // ---------------------------------------------------------------------------
 // hparams
@@ -225,6 +230,8 @@ static std::vector<std::string> expected_tensor_names(const magpie_hparams& h) {
 // ---------------------------------------------------------------------------
 
 magpie_model::~magpie_model() {
+    if (weights_buf) ggml_backend_buffer_free(weights_buf);
+    if (device_ctx)  ggml_free(device_ctx);
     if (gguf) gguf_free(gguf);
     if (ctx)  ggml_free(ctx);
 }
@@ -280,6 +287,52 @@ void magpie_model::load(const std::string& path) {
     if (expected.size() != tensors.size())
         MG_LOG("warning: %zu tensors in GGUF, %zu expected (extra tensors are ignored)",
                tensors.size(), expected.size());
+
+    // Host view of every tensor, preserved across upload_weights (raw-float
+    // readers and the tokenizer resources always read from here).
+    host_tensors = tensors;
+}
+
+void magpie_model::upload_weights(ggml_backend_t backend) {
+    if (weights_buf || !backend) return;                 // idempotent / null
+    if (ggml_backend_is_cpu(backend)) return;            // host tensors work as-is
+
+    // Mirror every graph-visible tensor into a no_alloc metadata ctx, allocate
+    // that ctx in ONE backend buffer, upload the bytes from the host originals
+    // and swap the compute map to the device copies. The g2p byte blobs never
+    // appear in a graph, so they are skipped (their compute entry stays host).
+    const size_t n = tensors.size();
+    ggml_init_params dp{
+        /*mem_size  =*/ ggml_tensor_overhead() * (n + 8),
+        /*mem_buffer=*/ nullptr,
+        /*no_alloc  =*/ true,
+    };
+    device_ctx = ggml_init(dp);
+    if (!device_ctx) throw std::runtime_error("magpie: upload_weights ctx init failed");
+
+    std::vector<std::pair<ggml_tensor*, const void*>> ups;
+    ups.reserve(n);
+    mg::tensor_map devmap;
+    devmap.reserve(n);
+    for (const auto& kv : tensors) {
+        ggml_tensor* s = kv.second;
+        if (kv.first.compare(0, 4, "g2p.") == 0) {       // host-only resource
+            devmap.emplace(kv.first, s);
+            continue;
+        }
+        ggml_tensor* d = ggml_new_tensor(device_ctx, s->type, GGML_MAX_DIMS, s->ne);
+        ggml_set_name(d, s->name);   // truncated name is fine; map key is full
+        devmap.emplace(kv.first, d);
+        ups.emplace_back(d, s->data);
+    }
+    weights_buf = ggml_backend_alloc_ctx_tensors(device_ctx, backend);
+    if (!weights_buf)
+        throw std::runtime_error("magpie: failed to allocate device weight buffer");
+    for (const auto& pr : ups)
+        ggml_backend_tensor_set(pr.first, pr.second, 0, ggml_nbytes(pr.first));
+    tensors.swap(devmap);
+    MG_LOG("weights uploaded to %s (%.1f MiB)", ggml_backend_name(backend),
+           (double)ggml_backend_buffer_get_size(weights_buf) / (1024.0 * 1024.0));
 }
 
 ggml_tensor* magpie_model::tensor(const std::string& full_name) const {
@@ -290,5 +343,16 @@ ggml_tensor* magpie_model::tensor(const std::string& full_name) const {
 ggml_tensor* magpie_model::require_tensor(const std::string& full_name) const {
     ggml_tensor* t = tensor(full_name);
     if (!t) throw std::runtime_error("magpie: missing tensor '" + full_name + "'");
+    return t;
+}
+
+ggml_tensor* magpie_model::host_tensor(const std::string& full_name) const {
+    auto it = host_tensors.find(full_name);
+    return it == host_tensors.end() ? nullptr : it->second;
+}
+
+ggml_tensor* magpie_model::require_host_tensor(const std::string& full_name) const {
+    ggml_tensor* t = host_tensor(full_name);
+    if (!t) throw std::runtime_error("magpie: missing host tensor '" + full_name + "'");
     return t;
 }

@@ -2,13 +2,17 @@
 #include "common.hpp"
 #include "model_loader.hpp"
 #include "ggml.h"
+#include "ggml-alloc.h"
+#include "ggml-backend.h"
+#include "ggml-cpu.h"    // ggml_backend_is_cpu
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
 #include <string>
 
-// See the note in encoder.cpp: builders assume a data-allocating (no_alloc =
-// false) CPU ggml context; the caller computes with ggml_graph_compute_with_ctx.
+// See the note in encoder.cpp: builders are context-agnostic (no_alloc +
+// gallocr on any backend, or a legacy data-allocating CPU context); every
+// tensor handed back to the caller is flagged as a graph OUTPUT.
 
 namespace {
 
@@ -33,6 +37,15 @@ bool contains(const std::vector<int32_t>& v, int32_t x) {
     return std::find(v.begin(), v.end(), x) != v.end();
 }
 
+// Flag a caller-visible tensor as a graph output. The view-chain root is
+// flagged too: a view flagged OUTPUT does NOT protect its view_src's storage
+// from gallocr reuse (ggml-alloc frees the src once its refcounts drop).
+void mark_output(ggml_tensor* t) {
+    ggml_set_output(t);
+    while (t->view_src) t = t->view_src;
+    ggml_set_output(t);
+}
+
 // k=1 pos_ff conv weight as a linear (matmul) weight. The f32 GGUF stores it
 // as (OC, IC, 1) -> ne [1, IC, OC]; quantized GGUFs (scripts/quantize_gguf.py)
 // squeeze it to 2-D (OC, IC) -> ne [IC, OC] because ggml block quants cannot
@@ -48,7 +61,7 @@ ggml_tensor* as_linear(ggml_context* ctx, ggml_tensor* w) {
 // ---------------------------------------------------------------------------
 
 void magpie_dec_kv_cache::init(const magpie_model& model, int32_t capacity_,
-                               int32_t n_stream_) {
+                               int32_t n_stream_, ggml_backend_t backend) {
     free();
     const magpie_hparams& hp = model.hparams;
     const int32_t n_layers = (int32_t)hp.decoder.n_layers;
@@ -59,12 +72,17 @@ void magpie_dec_kv_cache::init(const magpie_model& model, int32_t capacity_,
     n_stream      = n_stream_;
     text_capacity = (int32_t)hp.encoder.max_positions;
 
+    // Device backends get the storage in a backend buffer (the step graphs
+    // read/write the rows via views + ggml_cpy, so the K/V never leave the
+    // device); CPU keeps the historical host allocation.
+    const bool on_device = backend && !ggml_backend_is_cpu(backend);
+
     const size_t self_bytes  = (size_t)d_self  * capacity      * n_stream * sizeof(float);
     const size_t cross_bytes = (size_t)d_cross * text_capacity * n_stream * sizeof(float);
-    const size_t mem = (size_t)n_layers * 2 * (self_bytes + cross_bytes)
-                     + (size_t)n_layers * 4 * ggml_tensor_overhead() + 4096;
+    const size_t mem = (size_t)n_layers * 4 * ggml_tensor_overhead() + 4096
+                     + (on_device ? 0 : (size_t)n_layers * 2 * (self_bytes + cross_bytes));
 
-    ggml_init_params params{ mem, nullptr, /*no_alloc=*/false };
+    ggml_init_params params{ mem, nullptr, /*no_alloc=*/on_device };
     ctx = ggml_init(params);
     if (!ctx) throw std::runtime_error("magpie: failed to allocate decoder KV cache");
 
@@ -75,6 +93,14 @@ void magpie_dec_kv_cache::init(const magpie_model& model, int32_t capacity_,
         self_v[l]  = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, d_self,  capacity,      n_stream);
         cross_k[l] = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, d_cross, text_capacity, n_stream);
         cross_v[l] = ggml_new_tensor_3d(ctx, GGML_TYPE_F32, d_cross, text_capacity, n_stream);
+    }
+    if (on_device) {
+        buf = ggml_backend_alloc_ctx_tensors(ctx, backend);
+        if (!buf) {
+            ggml_free(ctx);
+            ctx = nullptr;
+            throw std::runtime_error("magpie: failed to allocate device KV cache");
+        }
     }
     n_past = 0;
     t_text = 0;
@@ -88,6 +114,8 @@ void magpie_dec_kv_cache::reset() {
 }
 
 void magpie_dec_kv_cache::free() {
+    if (buf) ggml_backend_buffer_free(buf);
+    buf = nullptr;
     if (ctx) ggml_free(ctx);
     ctx = nullptr;
     self_k.clear(); self_v.clear();
@@ -248,6 +276,7 @@ magpie_dec_step_out magpie_decoder_step_graph(ggml_context* ctx, ggml_cgraph* gr
                 ggml_view_3d(ctx, cprobs, t_text, 1, S, cprobs->nb[1], cprobs->nb[2],
                              (size_t)(n_new - 1) * cprobs->nb[1]));
             out.xattn_probs.push_back(last);
+            mark_output(last);
             ggml_build_forward_expand(graph, last);
         }
 
@@ -271,18 +300,21 @@ magpie_dec_step_out magpie_decoder_step_graph(ggml_context* ctx, ggml_cgraph* gr
         x = layer_norm(ctx, x, model.require_tensor("decoder.norm_out.weight"), hp.norm_eps);
     }
     out.hidden = x;
+    mark_output(x);
     ggml_build_forward_expand(graph, x);
 
     ggml_tensor* last = ggml_cont(ctx, ggml_view_3d(ctx, x, hp.d_model, 1, S,
                                                     x->nb[1], x->nb[2],
                                                     (size_t)(n_new - 1) * x->nb[1]));
     out.latent = ggml_reshape_2d(ctx, last, hp.d_model, S);
+    mark_output(out.latent);
     ggml_build_forward_expand(graph, out.latent);
 
     ggml_tensor* logits = ggml_mul_mat(ctx, model.require_tensor("final_proj.weight"),
                                        out.latent);
     logits = ggml_add(ctx, logits, model.require_tensor("final_proj.bias"));
     out.logits = logits;
+    mark_output(logits);
     ggml_build_forward_expand(graph, logits);
 
     // Record at BUILD time that the cross K/V fill nodes are in this graph;

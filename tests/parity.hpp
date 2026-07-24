@@ -36,6 +36,19 @@ inline std::string ref_dump_or_skip() {
     return env_or_skip("MAGPIE_REF_DUMP");
 }
 
+// Tolerance knob for non-CPU backends: MAGPIE_PARITY_TOL_SCALE multiplies a
+// test's base tolerances (default 1.0 -- the CPU gates are untouched). GPU
+// kernels order f32 reductions differently, so their noise floor sits a bit
+// above the CPU one; the printed max|d| remains the honest parity metric.
+inline float tol_scale() {
+    const char* s = std::getenv("MAGPIE_PARITY_TOL_SCALE");
+    if (!s || !*s) return 1.0f;
+    const float v = std::strtof(s, nullptr);
+    if (v > 0.0f && v != 1.0f)
+        std::fprintf(stderr, "[parity] MAGPIE_PARITY_TOL_SCALE=%g\n", v);
+    return v > 0.0f ? v : 1.0f;
+}
+
 // Find a tensor by FULL gguf name, pairing gguf indices with the ctx tensor
 // list (skipping the no_alloc=false data-blob tensor). nullptr if absent.
 inline ggml_tensor* find_tensor(const gguf_context* g, ggml_context* ctx,

@@ -5,6 +5,7 @@
 //           (f32 conv chains -> atol 1e-4)
 // Needs MAGPIE_MODEL and MAGPIE_REF_DUMP; skips (77) when either is unset.
 #include "parity.hpp"
+#include "backend.hpp"
 #include "codec.hpp"
 #include "model_loader.hpp"
 
@@ -16,9 +17,13 @@ int main() {
     const std::string model_path = mgtest::env_or_skip("MAGPIE_MODEL");
     const std::string ref        = mgtest::ref_dump_or_skip();
 
+    mg::backend be;   // before the model: outlives its device weight buffer
+    be.init();
+
     magpie_model model;
     try {
         model.load(model_path);
+        model.upload_weights(be.handle());
     } catch (const std::exception& e) {
         std::fprintf(stderr, "[codec] model load failed: %s\n", e.what());
         return 1;
@@ -52,7 +57,7 @@ int main() {
         if (!mgtest::load_baseline(ref, "wav", ref_wav, wav_shape)) return 1;
 
         const auto t0 = std::chrono::steady_clock::now();
-        const std::vector<float> wav = codec_decode(model, codes.data(), n_frames);
+        const std::vector<float> wav = codec_decode(model, codes.data(), n_frames, &be);
         const auto t1 = std::chrono::steady_clock::now();
         const double ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
         std::fprintf(stderr, "[codec] decoded %d frames -> %zu samples in %.1f ms "
@@ -68,7 +73,8 @@ int main() {
                          wav.size(), want);
             ok = false;
         }
-        ok &= mgtest::compare(wav, ref_wav, "codec.wav", 1e-4f, 0.0f);
+        ok &= mgtest::compare(wav, ref_wav, "codec.wav",
+                              1e-4f * mgtest::tol_scale(), 0.0f);
     } catch (const std::exception& e) {
         std::fprintf(stderr, "[codec] exception: %s\n", e.what());
         return 1;

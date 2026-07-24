@@ -9,6 +9,7 @@
 #include <vector>
 
 struct magpie_model;
+namespace mg { struct backend; }
 
 // FSQ dequantize only (exposed separately for parity testing):
 // codes -> latent, returned dim-major as latent[d * n_frames + t] with
@@ -21,5 +22,10 @@ std::vector<float> codec_fsq_dequantize(const magpie_model& model,
 // Full decode: codes -> mono PCM f32 at codec.sample_rate (22050 Hz).
 // Returns exactly codec.samples_per_frame * n_frames samples in [-1, 1].
 // The codec needs >= 4 frames. Throws std::runtime_error on invalid input.
+//
+// `be` (optional) is the compute backend the model's weights were uploaded
+// to (magpie_model::upload_weights); nullptr runs on a private CPU backend
+// (only valid while the weights are still host-resident).
 std::vector<float> codec_decode(const magpie_model& model,
-                                const int32_t* codes, int32_t n_frames);
+                                const int32_t* codes, int32_t n_frames,
+                                mg::backend* be = nullptr);

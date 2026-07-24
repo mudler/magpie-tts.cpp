@@ -1,6 +1,7 @@
 // NanoCodec decode path (see docs/architecture-nanocodec.md):
 //   FSQ dequantize  -- exact host-side lookup (no learned codebook), and
-//   CausalHiFiGANDecoder -- a ggml graph run on the CPU backend.
+//   CausalHiFiGANDecoder -- a ggml graph run on the selected compute backend
+//   (CPU by default, CUDA/... via MAGPIE_DEVICE, see src/backend.hpp).
 //
 // Implementation notes:
 // * Causal Conv1d is built from ggml_pad_ext (left-only zero pad) + a private
@@ -23,16 +24,15 @@
 //   graph matches PyTorch's (alpha + eps).reciprocal() bit-for-bit.
 // * Tensor layout throughout the graph: ne0 = time, ne1 = channels (B=1).
 #include "codec.hpp"
+#include "backend.hpp"
 #include "common.hpp"
 #include "model_loader.hpp"
 
 #include "ggml.h"
-#include "ggml-alloc.h"
-#include "ggml-backend.h"
-#include "ggml-cpu.h"
 
 #include <cmath>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -177,11 +177,13 @@ std::vector<float> codec_fsq_dequantize(const magpie_model& model,
 }
 
 // ---------------------------------------------------------------------------
-// Full decode: codes -> latent (host) -> CausalHiFiGANDecoder (ggml, CPU)
+// Full decode: codes -> latent (host) -> CausalHiFiGANDecoder (ggml graph on
+// the selected backend via mg::graph_session)
 // ---------------------------------------------------------------------------
 
 std::vector<float> codec_decode(const magpie_model& model,
-                                const int32_t* codes, int32_t n_frames) {
+                                const int32_t* codes, int32_t n_frames,
+                                mg::backend* be) {
     const magpie_codec_hparams& hp = model.hparams.codec;
     if (!codes || n_frames < 4) {
         throw std::runtime_error("codec_decode: need codes for >= 4 frames");
@@ -200,114 +202,89 @@ std::vector<float> codec_decode(const magpie_model& model,
     const std::string P = "codec.audio_decoder.";
     const int64_t T = n_frames;
 
-    // -- constants context: latent input + precomputed 1/(alpha + eps) -------
-    const size_t const_mem = ggml_tensor_overhead() * 128 +
-                             (size_t)hp.latent_dim * T * sizeof(float) + (1u << 20);
-    ggml_init_params cp = { const_mem, nullptr, /*no_alloc*/ false };
-    ggml_context* ctx_const = ggml_init(cp);
-    if (!ctx_const) throw std::runtime_error("codec_decode: ggml_init(const) failed");
-
-    // graph metadata context (tensors have no data; ggml_gallocr places them)
-    const size_t GRAPH_N   = 8192;
-    const size_t graph_mem = ggml_tensor_overhead() * GRAPH_N +
-                             ggml_graph_overhead_custom(GRAPH_N, false);
-    ggml_init_params gp = { graph_mem, nullptr, /*no_alloc*/ true };
-    ggml_context* ctx = ggml_init(gp);
-    if (!ctx) { ggml_free(ctx_const); throw std::runtime_error("codec_decode: ggml_init(graph) failed"); }
-
-    ggml_backend_t  backend = nullptr;
-    ggml_gallocr_t  galloc  = nullptr;
-    std::vector<float> wav;
-    try {
-        ggml_tensor* x0 = ggml_new_tensor_2d(ctx_const, GGML_TYPE_F32, T, hp.latent_dim);
-        std::memcpy(x0->data, latent.data(), latent.size() * sizeof(float));
-
-        // 1/(alpha + eps) as [1, C/2], matching torch (alpha + eps).reciprocal()
-        auto inv_alpha = [&](ggml_tensor* a) {
-            const int64_t n = ggml_nelements(a);
-            ggml_tensor* t = ggml_new_tensor_2d(ctx_const, GGML_TYPE_F32, 1, n);
-            const float* src = (const float*)a->data;
-            float*       dst = (float*)t->data;
-            for (int64_t i = 0; i < n; ++i) dst[i] = 1.0f / (src[i] + hp.snake_eps);
-            return t;
-        };
-        auto snake = [&](ggml_tensor* x, const std::string& alpha_name) {
-            ggml_tensor* a = model.require_tensor(alpha_name);
-            return half_snake(ctx, x, a, inv_alpha(a), hp.lrelu_slope);
-        };
-        auto conv = [&](ggml_tensor* x, const std::string& path, int dilation) {
-            return causal_conv1d(ctx, x, model.require_tensor(path + ".conv.weight"),
-                                 model.require_tensor(path + ".conv.bias"), dilation);
-        };
-
-        // pre_conv: [T, 32] -> [T, 864]
-        ggml_tensor* x = conv(x0, P + "pre_conv", 1);
-
-        for (int i = 0; i < n_stages; ++i) {
-            // activation BEFORE the upsampler, res layer AFTER it
-            x = snake(x, P + "activations." + std::to_string(i) +
-                         ".activation.snake_act.alpha");
-            x = grouped_causal_tconv1d(ctx, x,
-                    model.require_tensor(P + "up_sample_conv_layers." + std::to_string(i) + ".conv.weight"),
-                    model.require_tensor(P + "up_sample_conv_layers." + std::to_string(i) + ".conv.bias"),
-                    hp.up_sample_rates[i]);
-
-            // HiFiGANResLayer: mean of 3 sequential res-block chains (k = 3,7,11)
-            ggml_tensor* acc = nullptr;
-            for (size_t j = 0; j < hp.resblock_kernel_sizes.size(); ++j) {
-                ggml_tensor* xb = x;
-                for (size_t m = 0; m < hp.resblock_dilation_sizes.size(); ++m) {
-                    const std::string blk = P + "res_layers." + std::to_string(i) +
-                        ".res_blocks." + std::to_string(j) +
-                        ".res_blocks." + std::to_string(m);
-                    ggml_tensor* h = snake(xb, blk + ".input_activation.activation.snake_act.alpha");
-                    h = conv(h, blk + ".input_conv", hp.resblock_dilation_sizes[m]);
-                    h = snake(h, blk + ".skip_activation.activation.snake_act.alpha");
-                    h = conv(h, blk + ".skip_conv", 1);
-                    xb = ggml_add(ctx, xb, h);                  // residual
-                }
-                acc = acc ? ggml_add(ctx, acc, xb) : xb;
-            }
-            x = ggml_scale(ctx, acc, 1.0f / (float)hp.resblock_kernel_sizes.size());
-        }
-
-        x = snake(x, P + "post_activation.activation.snake_act.alpha");
-        x = conv(x, P + "post_conv", 1);                        // [1024*T, 1]
-        x = ggml_clamp(ctx, x, -1.0f, 1.0f);
-        ggml_set_output(x);
-
-        ggml_cgraph* gf = ggml_new_graph_custom(ctx, GRAPH_N, false);
-        ggml_build_forward_expand(gf, x);
-
-        backend = ggml_backend_cpu_init();
-        if (!backend) throw std::runtime_error("codec_decode: cpu backend init failed");
-        const unsigned hc = std::thread::hardware_concurrency();
-        ggml_backend_cpu_set_n_threads(backend, hc > 0 ? (int)hc : 4);
-
-        galloc = ggml_gallocr_new(ggml_backend_get_default_buffer_type(backend));
-        if (!ggml_gallocr_alloc_graph(galloc, gf)) {
-            throw std::runtime_error("codec_decode: graph allocation failed");
-        }
-        if (ggml_backend_graph_compute(backend, gf) != GGML_STATUS_SUCCESS) {
-            throw std::runtime_error("codec_decode: graph compute failed");
-        }
-
-        const size_t n_samples = (size_t)hp.samples_per_frame * n_frames;
-        if ((size_t)ggml_nelements(x) != n_samples) {
-            throw std::runtime_error("codec_decode: unexpected output length");
-        }
-        wav.resize(n_samples);
-        ggml_backend_tensor_get(x, wav.data(), 0, n_samples * sizeof(float));
-    } catch (...) {
-        if (galloc)  ggml_gallocr_free(galloc);
-        if (backend) ggml_backend_free(backend);
-        ggml_free(ctx);
-        ggml_free(ctx_const);
-        throw;
+    // Private CPU backend when the caller has none (weights must still be
+    // host-resident in that case, i.e. upload_weights was not called).
+    std::unique_ptr<mg::backend> own;
+    if (!be) {
+        own.reset(new mg::backend());
+        own->init();
+        be = own.get();
     }
-    ggml_gallocr_free(galloc);
-    ggml_backend_free(backend);
-    ggml_free(ctx);
-    ggml_free(ctx_const);
+
+    mg::graph_session s(*be, /*graph_nodes=*/8192);
+    ggml_context* ctx = s.ctx;
+
+    // 1/(alpha + eps) rows are computed HOST-side from the host alpha tensors
+    // (bit-matching torch's (alpha + eps).reciprocal()) and enter the graph as
+    // inputs; the staging vectors must outlive compute().
+    std::vector<std::unique_ptr<std::vector<float>>> staging;
+
+    ggml_tensor* x0 = s.input(ggml_new_tensor_2d(ctx, GGML_TYPE_F32, T, hp.latent_dim),
+                              latent.data());
+
+    auto inv_alpha = [&](const std::string& alpha_name) {
+        ggml_tensor* a = model.require_host_tensor(alpha_name);
+        const int64_t n = ggml_nelements(a);
+        staging.emplace_back(new std::vector<float>((size_t)n));
+        const float* src = (const float*)a->data;
+        float*       dst = staging.back()->data();
+        for (int64_t i = 0; i < n; ++i) dst[i] = 1.0f / (src[i] + hp.snake_eps);
+        return s.input(ggml_new_tensor_2d(ctx, GGML_TYPE_F32, 1, n), dst);
+    };
+    auto snake = [&](ggml_tensor* x, const std::string& alpha_name) {
+        ggml_tensor* a = model.require_tensor(alpha_name);
+        return half_snake(ctx, x, a, inv_alpha(alpha_name), hp.lrelu_slope);
+    };
+    auto conv = [&](ggml_tensor* x, const std::string& path, int dilation) {
+        return causal_conv1d(ctx, x, model.require_tensor(path + ".conv.weight"),
+                             model.require_tensor(path + ".conv.bias"), dilation);
+    };
+
+    // pre_conv: [T, 32] -> [T, 864]
+    ggml_tensor* x = conv(x0, P + "pre_conv", 1);
+
+    for (int i = 0; i < n_stages; ++i) {
+        // activation BEFORE the upsampler, res layer AFTER it
+        x = snake(x, P + "activations." + std::to_string(i) +
+                     ".activation.snake_act.alpha");
+        x = grouped_causal_tconv1d(ctx, x,
+                model.require_tensor(P + "up_sample_conv_layers." + std::to_string(i) + ".conv.weight"),
+                model.require_tensor(P + "up_sample_conv_layers." + std::to_string(i) + ".conv.bias"),
+                hp.up_sample_rates[i]);
+
+        // HiFiGANResLayer: mean of 3 sequential res-block chains (k = 3,7,11)
+        ggml_tensor* acc = nullptr;
+        for (size_t j = 0; j < hp.resblock_kernel_sizes.size(); ++j) {
+            ggml_tensor* xb = x;
+            for (size_t m = 0; m < hp.resblock_dilation_sizes.size(); ++m) {
+                const std::string blk = P + "res_layers." + std::to_string(i) +
+                    ".res_blocks." + std::to_string(j) +
+                    ".res_blocks." + std::to_string(m);
+                ggml_tensor* h = snake(xb, blk + ".input_activation.activation.snake_act.alpha");
+                h = conv(h, blk + ".input_conv", hp.resblock_dilation_sizes[m]);
+                h = snake(h, blk + ".skip_activation.activation.snake_act.alpha");
+                h = conv(h, blk + ".skip_conv", 1);
+                xb = ggml_add(ctx, xb, h);                  // residual
+            }
+            acc = acc ? ggml_add(ctx, acc, xb) : xb;
+        }
+        x = ggml_scale(ctx, acc, 1.0f / (float)hp.resblock_kernel_sizes.size());
+    }
+
+    x = snake(x, P + "post_activation.activation.snake_act.alpha");
+    x = conv(x, P + "post_conv", 1);                        // [1024*T, 1]
+    x = ggml_clamp(ctx, x, -1.0f, 1.0f);
+    s.mark_output(x);
+    ggml_build_forward_expand(s.graph, x);
+
+    const unsigned hc = std::thread::hardware_concurrency();
+    s.compute(hc > 0 ? (int)hc : 4);
+
+    const size_t n_samples = (size_t)hp.samples_per_frame * n_frames;
+    if ((size_t)ggml_nelements(x) != n_samples) {
+        throw std::runtime_error("codec_decode: unexpected output length");
+    }
+    std::vector<float> wav(n_samples);
+    s.read(x, wav.data());
     return wav;
 }

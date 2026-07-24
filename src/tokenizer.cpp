@@ -664,7 +664,8 @@ void magpie_tokenizer::init(const magpie_model& model) {
     kv.check("magpie_tokenizer::init");
 
     auto blob_of = [&](const std::string& tname) {
-        ggml_tensor* t = model.require_tensor(tname);
+        // host copy: the g2p blobs are raw byte resources, never device-resident
+        ggml_tensor* t = model.require_host_tensor(tname);
         return std::string((const char*)t->data, (size_t)ggml_nbytes(t));
     };
     for (const std::string& n : th.g2p_names) {
