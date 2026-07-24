@@ -616,9 +616,11 @@ Each `BaseTokenizer`-derived vocab ends with `<pad>`, then `<oov>`
    heteronyms → graphemes; en-US `'s`/`s` suffix rules (`i18n_ipa.py:399-442`); dict
    lookup takes the **first** pronunciation variant; OOV → graphemes (prefixing
    `grapheme_prefix` where configured); hyphenated OOVs split on `-`.
-3. `encode_from_g2p` (`tts_tokenizers.py:1028`): map each symbol to id, collapse repeated
-   spaces, drop unknown symbols with a warning, strip trailing spaces, wrap in spaces if
-   `pad_with_space` (true for es/de/zh/ja/pt/hi/ar; false for en).
+3. `encode_from_g2p` (`tts_tokenizers.py:1028`): map each symbol to id, drop unknown
+   symbols with a warning, strip trailing spaces, wrap in spaces if `pad_with_space`
+   (true for es/de/zh/ja/pt/hi/ar; false for en). NOTE: repeated/leading spaces are NOT
+   collapsed for IPA tokenizers (`' '` is a vocab token and hits the `elif p in tokens`
+   branch) — verified empirically by the C++ port; only `ArabicCharsTokenizer` collapses.
 
 ### 4.3 C++ port strategy
 
