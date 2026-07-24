@@ -40,7 +40,7 @@ Measured on a Ryzen 9 9950X3D, CPU only. The NeMo reference pipeline (as shipped
 
 Medians over 3 runs of `magpie-cli bench`, same sentence, seed 1234.
 
-Honest notes: the largest single factor is that the NeMo reference recomputes the whole sequence every decoder step on CPU while this port uses a KV cache (the same approximation NeMo itself enables on GPU); the remaining gap comes from ggml graphs, f32 im2col paths, and no framework overhead. Quantized variants decode roughly 1.6 to 1.8 times faster than f32. See [benchmarks/BENCHMARK.md](benchmarks/BENCHMARK.md) for methodology and full numbers.
+Honest notes: the largest single factor is that the NeMo reference recomputes the whole sequence every decoder step while this port uses a KV cache (an approximation NeMo ships support for but leaves off in this checkpoint's config -- measured `use_kv_cache_for_inference = False` on both CPU and GPU); the remaining gap comes from ggml graphs, f32 im2col paths, and no framework overhead. Quantized variants decode roughly 1.6 to 1.8 times faster than f32. See [benchmarks/BENCHMARK.md](benchmarks/BENCHMARK.md) for methodology and full numbers.
 
 ### See it run
 
@@ -68,6 +68,20 @@ cmake --build build -j
 | `MAGPIE_BUILD_TESTS` | ON | build parity tests |
 | `MAGPIE_SHARED` | OFF | build `libmagpie-tts.so` (for LocalAI / FFI) |
 | `MAGPIE_GGML_CUDA` / `METAL` / `VULKAN` / `HIP` | OFF | ggml GPU backends |
+
+### GPU
+
+Build with `-DMAGPIE_GGML_CUDA=ON` and select the device at runtime with the
+`MAGPIE_DEVICE` environment variable: unset or `cpu` keeps the CPU path
+(default, byte-identical to a CPU-only build), `cuda`/`gpu`/`auto` picks the
+first GPU in the ggml registry, or pass an explicit registry name like
+`CUDA0`. Weights, KV cache and every graph then live on the device; ops the
+backend does not support fall back to CPU per graph (logged, none on CUDA).
+GPU numbers in [benchmarks/BENCHMARK.md](benchmarks/BENCHMARK.md#gpu-nvidia-gb10-dgx-spark).
+
+```bash
+MAGPIE_DEVICE=cuda ./build/examples/cli/magpie-cli say --model ... --text "..."
+```
 
 ## Get the model
 
