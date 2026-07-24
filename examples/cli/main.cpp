@@ -1,9 +1,11 @@
 // magpie-cli: command line front end for magpie-tts.cpp.
 // Subcommands: info (loads the model, prints every hparam), say (text ->
-// speech -> WAV). Exit codes: 0 ok, 2 usage, 1 runtime error.
+// speech -> WAV), bench (repeated synthesis with per-phase timing).
+// Exit codes: 0 ok, 2 usage, 1 runtime error.
 #include "magpie_tts.h"
 #include "audio_io.hpp"
 #include "model_loader.hpp"
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
@@ -18,10 +20,13 @@ static int usage() {
         "usage: magpie-cli <subcommand> [flags]\n"
         "\n"
         "subcommands:\n"
-        "  info --model <gguf>                 print model hyperparameters\n"
-        "  say  --model <gguf> --text <text>   synthesize speech to a WAV file\n"
-        "       [--lang <code>] [--speaker <name|index>] [--seed <n>]\n"
-        "       [--output <wav>] [--threads <n>]\n");
+        "  info  --model <gguf>                 print model hyperparameters\n"
+        "  say   --model <gguf> --text <text>   synthesize speech to a WAV file\n"
+        "        [--lang <code>] [--speaker <name|index>] [--seed <n>]\n"
+        "        [--output <wav>] [--threads <n>]\n"
+        "  bench --model <gguf>                 timed synthesis, median over runs\n"
+        "        [--text <text>] [--lang <code>] [--speaker <name|index>]\n"
+        "        [--seed <n>=1234] [--runs <n>=3] [--threads <n>] [--json]\n");
     return 2;
 }
 
@@ -67,6 +72,120 @@ static int cmd_say(const std::string& model_path, const std::string& text,
         return 0;
     } catch (const std::exception& e) {
         std::fprintf(stderr, "magpie-cli say: %s\n", e.what());
+        return 1;
+    }
+}
+
+// bench: load once (timed), synthesize --runs times, report per-phase timing
+// (encode / decoder loop / local transformer / codec) per run and the median.
+// Seeded (default 1234) so every run decodes the same token stream; realtime
+// factor = audio_seconds / total synthesis seconds (model load excluded).
+
+// Median of v (average of the two middles for even n). v is copied on purpose.
+static double median_of(std::vector<double> v) {
+    if (v.empty()) return 0.0;
+    std::sort(v.begin(), v.end());
+    const size_t n = v.size();
+    return n % 2 ? v[n / 2] : 0.5 * (v[n / 2 - 1] + v[n / 2]);
+}
+
+static void bench_json_row(const magpie_tts_stats& s) {
+    std::printf("{\"encode_ms\":%.3f,\"decode_ms\":%.3f,\"decode_steps\":%d,"
+                "\"ms_per_step\":%.3f,\"lt_ms\":%.3f,\"codec_ms\":%.3f,"
+                "\"total_ms\":%.3f,\"audio_seconds\":%.6f,\"realtime_factor\":%.4f}",
+                s.encode_ms, s.decode_ms, s.decode_steps, s.ms_per_step, s.lt_ms,
+                s.codec_ms, s.total_ms, s.audio_seconds, s.realtime_factor);
+}
+
+static int cmd_bench(const std::string& model_path, const std::string& text,
+                     const std::string& lang, const std::string& speaker,
+                     uint64_t seed, int runs, int threads, bool json) {
+    try {
+        const auto t0 = std::chrono::steady_clock::now();
+        magpie_tts_context* ctx = magpie_tts_load(model_path);
+        const double load_ms = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - t0).count();
+
+        magpie_tts_options opts;
+        opts.language  = lang;
+        opts.seed      = seed;
+        opts.n_threads = threads;
+        if (!speaker.empty()) {
+            char* end = nullptr;
+            const long idx = std::strtol(speaker.c_str(), &end, 10);
+            if (end && *end == '\0') opts.speaker_index = (int32_t)idx;
+            else                     opts.speaker = speaker;
+        }
+
+        std::vector<magpie_tts_stats> stats((size_t)runs);
+        for (int r = 0; r < runs; ++r) {
+            opts.stats = &stats[(size_t)r];
+            (void)magpie_tts_synthesize(*ctx, text, opts);
+        }
+        magpie_tts_free(ctx);
+
+        // median per metric over the runs
+        auto med = [&](double magpie_tts_stats::* f) {
+            std::vector<double> v;
+            for (const auto& s : stats) v.push_back(s.*f);
+            return median_of(v);
+        };
+        magpie_tts_stats m;
+        m.encode_ms       = med(&magpie_tts_stats::encode_ms);
+        m.decode_ms       = med(&magpie_tts_stats::decode_ms);
+        m.decode_steps    = stats[stats.size() / 2].decode_steps;  // seeded: identical
+        m.ms_per_step     = med(&magpie_tts_stats::ms_per_step);
+        m.lt_ms           = med(&magpie_tts_stats::lt_ms);
+        m.codec_ms        = med(&magpie_tts_stats::codec_ms);
+        m.total_ms        = med(&magpie_tts_stats::total_ms);
+        m.audio_seconds   = med(&magpie_tts_stats::audio_seconds);
+        m.realtime_factor = med(&magpie_tts_stats::realtime_factor);
+
+        if (json) {
+            std::printf("{\"model\":\"%s\",\"lang\":\"%s\",\"speaker\":\"%s\","
+                        "\"seed\":%llu,\"threads\":%d,\"runs\":%d,\"load_ms\":%.3f,"
+                        "\"text_chars\":%zu,",
+                        model_path.c_str(), lang.c_str(),
+                        speaker.empty() ? "0" : speaker.c_str(),
+                        (unsigned long long)seed, threads, runs, load_ms,
+                        text.size());
+            std::printf("\"runs_detail\":[");
+            for (size_t i = 0; i < stats.size(); ++i) {
+                if (i) std::printf(",");
+                bench_json_row(stats[i]);
+            }
+            std::printf("],\"median\":");
+            bench_json_row(m);
+            std::printf("}\n");
+            return 0;
+        }
+
+        std::printf("bench: magpie-tts.cpp %s\n", magpie_tts_version());
+        std::printf("  model    %s\n", model_path.c_str());
+        std::printf("  text     \"%s\" (%zu chars)\n", text.c_str(), text.size());
+        std::printf("  lang %s  speaker %s  seed %llu  threads %s  runs %d\n",
+                    lang.c_str(), speaker.empty() ? "0" : speaker.c_str(),
+                    (unsigned long long)seed,
+                    threads > 0 ? std::to_string(threads).c_str() : "auto",
+                    runs);
+        std::printf("  load     %.1f ms\n\n", load_ms);
+        std::printf("  %-6s %10s %10s %6s %9s %9s %9s %10s %8s %6s\n",
+                    "run", "encode_ms", "decode_ms", "steps", "ms/step",
+                    "lt_ms", "codec_ms", "total_ms", "audio_s", "rtf");
+        for (size_t i = 0; i < stats.size(); ++i) {
+            const magpie_tts_stats& s = stats[i];
+            std::printf("  %-6zu %10.1f %10.1f %6d %9.1f %9.1f %9.1f %10.1f %8.2f %6.2f\n",
+                        i + 1, s.encode_ms, s.decode_ms, s.decode_steps,
+                        s.ms_per_step, s.lt_ms, s.codec_ms, s.total_ms,
+                        s.audio_seconds, s.realtime_factor);
+        }
+        std::printf("  %-6s %10.1f %10.1f %6d %9.1f %9.1f %9.1f %10.1f %8.2f %6.2f\n",
+                    "median", m.encode_ms, m.decode_ms, m.decode_steps,
+                    m.ms_per_step, m.lt_ms, m.codec_ms, m.total_ms,
+                    m.audio_seconds, m.realtime_factor);
+        return 0;
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "magpie-cli bench: %s\n", e.what());
         return 1;
     }
 }
@@ -213,7 +332,8 @@ int main(int argc, char** argv) {
 
     std::string model, text, lang = "en", speaker, output = "out.wav";
     uint64_t seed = 0;
-    int threads = 0;
+    bool seed_given = false, json = false;
+    int threads = 0, runs = 3;
     for (int i = 2; i < argc; ++i) {
         auto next = [&](const char* flag) -> const char* {
             if (i + 1 >= argc) {
@@ -227,8 +347,13 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--lang"))    lang    = next("--lang");
         else if (!std::strcmp(argv[i], "--speaker")) speaker = next("--speaker");
         else if (!std::strcmp(argv[i], "--output"))  output  = next("--output");
-        else if (!std::strcmp(argv[i], "--seed"))    seed    = std::strtoull(next("--seed"), nullptr, 10);
+        else if (!std::strcmp(argv[i], "--seed")) {
+            seed = std::strtoull(next("--seed"), nullptr, 10);
+            seed_given = true;
+        }
         else if (!std::strcmp(argv[i], "--threads")) threads = std::atoi(next("--threads"));
+        else if (!std::strcmp(argv[i], "--runs"))    runs    = std::atoi(next("--runs"));
+        else if (!std::strcmp(argv[i], "--json"))    json    = true;
         else {
             std::fprintf(stderr, "unknown flag: %s\n", argv[i]);
             return usage();
@@ -242,6 +367,13 @@ int main(int argc, char** argv) {
     if (cmd == "say") {
         if (model.empty() || text.empty()) return usage();
         return cmd_say(model, text, lang, speaker, output, seed, threads);
+    }
+    if (cmd == "bench") {
+        if (model.empty() || runs < 1) return usage();
+        if (text.empty())
+            text = "Hello world, this is a test of the text to speech system.";
+        if (!seed_given) seed = 1234;  // deterministic runs by default
+        return cmd_bench(model, text, lang, speaker, seed, runs, threads, json);
     }
     return usage();
 }

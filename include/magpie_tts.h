@@ -20,6 +20,22 @@ struct magpie_tts_context;
 // tensors without them being part of the public surface.
 struct magpie_model;
 
+// Per-phase wall-clock timing of one synthesis call, filled when
+// magpie_tts_options::stats is set. magpie_tts_synthesize_codes fills every
+// field except codec_ms (0 there; total_ms then excludes the codec);
+// magpie_tts_synthesize adds the NanoCodec phase and the realtime factor.
+struct magpie_tts_stats {
+    double  encode_ms       = 0.0;  // tokenize + text encoder (once per call)
+    double  decode_ms       = 0.0;  // AR decoder loop, INCLUDING lt_ms
+    int32_t decode_steps    = 0;    // decoder steps executed (incl. EOS step)
+    double  ms_per_step     = 0.0;  // decode_ms / decode_steps
+    double  lt_ms           = 0.0;  // local-transformer share of decode_ms
+    double  codec_ms        = 0.0;  // NanoCodec decode (codes -> PCM)
+    double  total_ms        = 0.0;  // encode_ms + decode_ms + codec_ms
+    double  audio_seconds   = 0.0;  // kept frames * samples_per_frame / rate
+    double  realtime_factor = 0.0;  // audio_seconds / (total_ms / 1000)
+};
+
 struct magpie_tts_options {
     std::string language = "en";    // language_map key: en, de, es, fr, zh, hi, ja, ...
     std::string speaker  = "";      // baked speaker name (Aria, Jason, John, Leo,
@@ -32,6 +48,7 @@ struct magpie_tts_options {
     int32_t     n_threads   = 0;    // 0 = hardware concurrency
     int32_t     max_frames  = -1;   // max codec frames; < 0: model default (500)
     bool        use_cfg     = true; // classifier-free guidance (2 decoder streams)
+    magpie_tts_stats* stats = nullptr;  // optional out: per-phase timing
 };
 
 // Codes-level synthesis result (magpie_tts_synthesize_codes).

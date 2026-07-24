@@ -322,6 +322,7 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
                                  " out of range");
 
     // ---- tokenize (+ per-chunk EOS, NeMo feeds no BOS) ----
+    const auto t_enc0 = std::chrono::steady_clock::now();
     if (!ctx.tokenizer_ready) {
         ctx.tokenizer.init(model);
         ctx.tokenizer_ready = true;
@@ -332,6 +333,8 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
 
     // ---- encoder (once per utterance) ----
     const std::vector<float> enc_out = run_encoder(model, ids, n_threads);
+    const double encode_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - t_enc0).count();
 
     // ---- baked speaker context ----
     const int64_t T_ctx = hp.dec_context_size;  // 217
@@ -360,6 +363,7 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
     int32_t kept = -1;
 
     const auto t_start = std::chrono::steady_clock::now();
+    double lt_ms = 0.0;  // local-transformer share of the decode loop
 
     for (int32_t idx = 0; idx < n_steps_max; ++idx) {
         const bool forbid_eos = idx * S < min_frames;
@@ -460,6 +464,7 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
             }
         } else {
             // local transformer: 16 sequential CFG-combined top-k samples
+            const auto t_lt = std::chrono::steady_clock::now();
             for (int32_t k = 0; k < n_cb; ++k) {
                 std::vector<float> lg = run_lt_step(model, r.latent, toks.data(), k,
                                                     n_stream, n_threads);
@@ -473,6 +478,8 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
                 // already shares the cond history, NeMo's tok[1] = tok[0])
                 toks[k] = sample_topk(lgc, au, forbid_eos, temperature, topk, rng);
             }
+            lt_ms += std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - t_lt).count();
             for (int32_t i = 0; i < S && f_mult == INT32_MAX; ++i)
                 for (int32_t c = 0; c < C; ++c)
                     if (toks[c + C * i] == (int32_t)au.eos_id) {
@@ -505,6 +512,21 @@ magpie_tts_codes magpie_tts_synthesize_codes(magpie_tts_context& ctx,
            (double)n_frames * hp.codec.samples_per_frame / hp.codec.sample_rate,
            ms, ms / std::max(1, res.n_steps));
 
+    if (options.stats) {
+        magpie_tts_stats& st = *options.stats;
+        st = magpie_tts_stats{};  // codec_ms stays 0 for codes-only calls
+        st.encode_ms       = encode_ms;
+        st.decode_ms       = ms;
+        st.decode_steps    = res.n_steps;
+        st.ms_per_step     = ms / std::max(1, res.n_steps);
+        st.lt_ms           = lt_ms;
+        st.total_ms        = encode_ms + ms;
+        st.audio_seconds   = (double)n_frames * hp.codec.samples_per_frame /
+                             hp.codec.sample_rate;
+        st.realtime_factor = st.total_ms > 0.0
+            ? st.audio_seconds / (st.total_ms / 1000.0) : 0.0;
+    }
+
     // ---- unstack to codebook-major codes [C][n_frames] ----
     res.n_frames = n_frames;
     res.codes.assign((size_t)C * n_frames, 0);
@@ -522,5 +544,16 @@ std::vector<float> magpie_tts_synthesize(magpie_tts_context& ctx,
         throw std::runtime_error("magpie: generated only " +
                                  std::to_string(out.n_frames) +
                                  " frames (codec needs >= 4)");
-    return codec_decode(ctx.model, out.codes.data(), out.n_frames);
+    const auto t_codec = std::chrono::steady_clock::now();
+    std::vector<float> pcm = codec_decode(ctx.model, out.codes.data(), out.n_frames);
+    if (options.stats) {
+        magpie_tts_stats& st = *options.stats;
+        st.codec_ms = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - t_codec).count();
+        st.total_ms += st.codec_ms;
+        st.audio_seconds = (double)pcm.size() / ctx.model.hparams.codec.sample_rate;
+        st.realtime_factor = st.total_ms > 0.0
+            ? st.audio_seconds / (st.total_ms / 1000.0) : 0.0;
+    }
+    return pcm;
 }
