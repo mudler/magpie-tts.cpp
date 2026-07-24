@@ -36,7 +36,10 @@ FULL_DUMP_STEPS = (0, 5)
 
 
 def to_np(t):
-    return t.detach().float().cpu().numpy()
+    t = t.detach().cpu()
+    if not t.dtype.is_floating_point:
+        return t.to(torch.int32).numpy()
+    return t.float().numpy()
 
 
 class Capture:
@@ -184,10 +187,14 @@ def main():
             codec = getattr(model._codec_helper, attr, None) or codec
     print("codec object:", type(codec).__name__ if codec is not None else None, flush=True)
     if codec is not None:
-        def vq_hook(mod, hook_args, kwargs, out):
+        # FSQ decode is a plain method (not a module forward) — monkeypatch it.
+        orig_vq_decode = codec.vector_quantizer.decode
+        def vq_decode_wrap(*a, **kw):
+            out = orig_vq_decode(*a, **kw)
             o = out[0] if isinstance(out, tuple) else out
             cap.put("codec.latent", o.squeeze(0))
-        add_hook(codec.vector_quantizer, vq_hook)
+            return out
+        codec.vector_quantizer.decode = vq_decode_wrap
 
     # context embedding
     spk = args.speaker
