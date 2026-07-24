@@ -56,6 +56,8 @@ def main():
     ap.add_argument("--language", default="en")
     ap.add_argument("--speaker", type=int, default=0)
     ap.add_argument("--seed", type=int, default=1234)
+    ap.add_argument("--max-steps", type=int, default=0,
+                    help="clamp max_decoder_steps (hook validation runs)")
     args = ap.parse_args()
 
     from nemo.collections.tts.models import MagpieTTSModel
@@ -71,6 +73,12 @@ def main():
             if hasattr(g2p, "phoneme_prob"):
                 g2p.phoneme_prob = 1.0
     print("model loaded; tokenizers:", list(model.tokenizer.tokenizers.keys()), flush=True)
+
+    if args.max_steps:
+        from omegaconf import open_dict
+        with open_dict(model.cfg):
+            model.cfg.inference_parameters.max_decoder_steps = args.max_steps
+        print(f"clamped max_decoder_steps to {args.max_steps}", flush=True)
 
     cap = Capture()
     hooks = []
@@ -142,10 +150,11 @@ def main():
     # --- attention prior + attended position: wrap the bound methods ---
     orig_prior = model.construct_inference_prior
     def prior_wrap(*a, **kw):
-        prior = orig_prior(*a, **kw)
-        if prior is not None and cap.step in FULL_DUMP_STEPS:
+        res = orig_prior(*a, **kw)
+        prior = res[0] if isinstance(res, tuple) else res
+        if torch.is_tensor(prior) and cap.step in FULL_DUMP_STEPS:
             cap.put(f"dec.step{cap.step}.prior", prior.squeeze(1))
-        return prior
+        return res
     model.construct_inference_prior = prior_wrap
 
     orig_attended = model.get_most_attended_text_timestep
