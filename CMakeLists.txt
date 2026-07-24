@@ -17,6 +17,13 @@ option(MAGPIE_GGML_METAL    "Enable ggml Metal backend"          OFF)
 option(MAGPIE_GGML_VULKAN   "Enable ggml Vulkan backend"         OFF)
 option(MAGPIE_GGML_HIP      "Enable ggml HIP backend"            OFF)
 
+# The magpie GGUF keeps NeMo state-dict tensor names verbatim; the longest
+# (codec res-block snake alphas) is 102 chars. ggml's default GGML_MAX_NAME=64
+# makes gguf_init_from_file REJECT such files outright, so raise it project-wide.
+# It sizes ggml_tensor::name, so it must be identical in ggml and in every
+# consumer TU -- hence a directory-scope definition ahead of add_subdirectory.
+add_compile_definitions(GGML_MAX_NAME=128)
+
 # Forward backend toggles to ggml
 set(GGML_CUDA   ${MAGPIE_GGML_CUDA}   CACHE BOOL "" FORCE)
 set(GGML_METAL  ${MAGPIE_GGML_METAL}  CACHE BOOL "" FORCE)
