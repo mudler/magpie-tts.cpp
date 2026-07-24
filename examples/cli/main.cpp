@@ -1,9 +1,13 @@
 // magpie-cli: command line front end for magpie-tts.cpp.
-// Subcommands: info (loads the model, prints every hparam), say (synthesis --
-// not implemented yet). Exit codes: 0 ok, 2 usage, 1 runtime error.
+// Subcommands: info (loads the model, prints every hparam), say (text ->
+// speech -> WAV). Exit codes: 0 ok, 2 usage, 1 runtime error.
 #include "magpie_tts.h"
+#include "audio_io.hpp"
 #include "model_loader.hpp"
+#include <chrono>
+#include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <exception>
 #include <string>
@@ -15,9 +19,56 @@ static int usage() {
         "\n"
         "subcommands:\n"
         "  info --model <gguf>                 print model hyperparameters\n"
-        "  say  --model <gguf> --text <text>   synthesize speech (NOT IMPLEMENTED)\n"
-        "       [--lang <code>] [--speaker <name>] [--output <wav>] [--threads <n>]\n");
+        "  say  --model <gguf> --text <text>   synthesize speech to a WAV file\n"
+        "       [--lang <code>] [--speaker <name|index>] [--seed <n>]\n"
+        "       [--output <wav>] [--threads <n>]\n");
     return 2;
+}
+
+// say: synthesize --text and write a PCM16 WAV. --speaker accepts a baked
+// speaker name (Aria, Jason, John, Leo, Sofia) or a numeric index 0..4.
+static int cmd_say(const std::string& model_path, const std::string& text,
+                   const std::string& lang, const std::string& speaker,
+                   const std::string& output, uint64_t seed, int threads) {
+    try {
+        const auto t0 = std::chrono::steady_clock::now();
+        magpie_tts_context* ctx = magpie_tts_load(model_path);
+        const auto t1 = std::chrono::steady_clock::now();
+
+        magpie_tts_options opts;
+        opts.language  = lang;
+        opts.seed      = seed;
+        opts.n_threads = threads;
+        if (!speaker.empty()) {
+            char* end = nullptr;
+            const long idx = std::strtol(speaker.c_str(), &end, 10);
+            if (end && *end == '\0') opts.speaker_index = (int32_t)idx;
+            else                     opts.speaker = speaker;
+        }
+
+        const std::vector<float> pcm = magpie_tts_synthesize(*ctx, text, opts);
+        const auto t2 = std::chrono::steady_clock::now();
+
+        const int32_t sr = magpie_tts_sample_rate(*ctx);
+        magpie_wav_write_pcm16(output, pcm.data(), pcm.size(), (uint32_t)sr);
+
+        double rms = 0.0;
+        for (float v : pcm) rms += (double)v * v;
+        rms = pcm.empty() ? 0.0 : std::sqrt(rms / (double)pcm.size());
+
+        const double load_s  = std::chrono::duration<double>(t1 - t0).count();
+        const double synth_s = std::chrono::duration<double>(t2 - t1).count();
+        std::printf("wrote %s: %zu samples @ %d Hz (%.2f s audio, rms %.4f)\n",
+                    output.c_str(), pcm.size(), sr,
+                    (double)pcm.size() / sr, rms);
+        std::printf("timing: load %.2f s, synthesis %.2f s (%.2fx realtime)\n",
+                    load_s, synth_s, ((double)pcm.size() / sr) / synth_s);
+        magpie_tts_free(ctx);
+        return 0;
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "magpie-cli say: %s\n", e.what());
+        return 1;
+    }
 }
 
 static void print_ivec(const char* label, const std::vector<int32_t>& v) {
@@ -161,6 +212,8 @@ int main(int argc, char** argv) {
     const std::string cmd = argv[1];
 
     std::string model, text, lang = "en", speaker, output = "out.wav";
+    uint64_t seed = 0;
+    int threads = 0;
     for (int i = 2; i < argc; ++i) {
         auto next = [&](const char* flag) -> const char* {
             if (i + 1 >= argc) {
@@ -174,13 +227,13 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--lang"))    lang    = next("--lang");
         else if (!std::strcmp(argv[i], "--speaker")) speaker = next("--speaker");
         else if (!std::strcmp(argv[i], "--output"))  output  = next("--output");
-        else if (!std::strcmp(argv[i], "--threads")) (void)next("--threads");
+        else if (!std::strcmp(argv[i], "--seed"))    seed    = std::strtoull(next("--seed"), nullptr, 10);
+        else if (!std::strcmp(argv[i], "--threads")) threads = std::atoi(next("--threads"));
         else {
             std::fprintf(stderr, "unknown flag: %s\n", argv[i]);
             return usage();
         }
     }
-    (void)lang; (void)speaker; (void)output;
 
     if (cmd == "info") {
         if (model.empty()) return usage();
@@ -188,8 +241,7 @@ int main(int argc, char** argv) {
     }
     if (cmd == "say") {
         if (model.empty() || text.empty()) return usage();
-        std::fprintf(stderr, "magpie-cli say: not implemented\n");
-        return 1;
+        return cmd_say(model, text, lang, speaker, output, seed, threads);
     }
     return usage();
 }

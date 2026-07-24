@@ -38,7 +38,6 @@ void magpie_tts_capi_free(magpie_tts_ctx* ctx);
 // magpie_tts_capi_free_audio) and writes its length to *out_n_samples. On
 // error returns NULL, writes 0 to *out_n_samples (if non-NULL) and sets the
 // context's last error (see magpie_tts_capi_last_error).
-// NOT IMPLEMENTED YET: currently always fails with "not implemented".
 float* magpie_tts_capi_synthesize(magpie_tts_ctx* ctx, const char* text,
                                   const char* language, const char* speaker,
                                   int* out_n_samples);
