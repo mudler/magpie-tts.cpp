@@ -52,6 +52,12 @@ ggml_tensor* self_attention(ggml_context* ctx, ggml_tensor* x,
     return ggml_mul_mat(ctx, o_w, merged);
 }
 
+// k=1 pos_ff conv weight as a linear weight; the f32 GGUF stores ne
+// [1, IC, OC], quantized GGUFs squeeze to ne [IC, OC] (see decoder.cpp).
+ggml_tensor* as_linear(ggml_context* ctx, ggml_tensor* w) {
+    return w->ne[2] == 1 ? w : ggml_reshape_2d(ctx, w, w->ne[1], w->ne[2]);
+}
+
 } // namespace
 
 ggml_tensor* magpie_lt_step_graph(ggml_context* ctx, ggml_cgraph* graph,
@@ -104,9 +110,9 @@ ggml_tensor* magpie_lt_step_graph(ggml_context* ctx, ggml_cgraph* graph,
         h = layer_norm(ctx, x, model.require_tensor(p + "norm_pos_ff.weight"), hp.norm_eps);
         ggml_tensor* w1 = model.require_tensor(p + "pos_ff.proj.conv.weight");  // [1, 768, 3072]
         ggml_tensor* w2 = model.require_tensor(p + "pos_ff.o_net.conv.weight"); // [1, 3072, 768]
-        ggml_tensor* ff = ggml_mul_mat(ctx, ggml_reshape_2d(ctx, w1, w1->ne[1], w1->ne[2]), h);
+        ggml_tensor* ff = ggml_mul_mat(ctx, as_linear(ctx, w1), h);
         ff = gelu_tanh(ctx, ff);
-        ff = ggml_mul_mat(ctx, ggml_reshape_2d(ctx, w2, w2->ne[1], w2->ne[2]), ff);
+        ff = ggml_mul_mat(ctx, as_linear(ctx, w2), ff);
         x = ggml_add(ctx, x, ff);
     }
     // NO norm_out on the local transformer (Identity in NeMo).

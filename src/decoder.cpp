@@ -33,6 +33,14 @@ bool contains(const std::vector<int32_t>& v, int32_t x) {
     return std::find(v.begin(), v.end(), x) != v.end();
 }
 
+// k=1 pos_ff conv weight as a linear (matmul) weight. The f32 GGUF stores it
+// as (OC, IC, 1) -> ne [1, IC, OC]; quantized GGUFs (scripts/quantize_gguf.py)
+// squeeze it to 2-D (OC, IC) -> ne [IC, OC] because ggml block quants cannot
+// represent a leading dim of 1. Accept both layouts.
+ggml_tensor* as_linear(ggml_context* ctx, ggml_tensor* w) {
+    return w->ne[2] == 1 ? w : ggml_reshape_2d(ctx, w, w->ne[1], w->ne[2]);
+}
+
 } // namespace
 
 // ---------------------------------------------------------------------------
@@ -253,9 +261,9 @@ magpie_dec_step_out magpie_decoder_step_graph(ggml_context* ctx, ggml_cgraph* gr
         h = layer_norm(ctx, x, model.require_tensor(p + "norm_pos_ff.weight"), hp.norm_eps);
         ggml_tensor* w1 = model.require_tensor(p + "pos_ff.proj.conv.weight");  // [1, 768, 3072]
         ggml_tensor* w2 = model.require_tensor(p + "pos_ff.o_net.conv.weight"); // [1, 3072, 768]
-        ggml_tensor* ff = ggml_mul_mat(ctx, ggml_reshape_2d(ctx, w1, w1->ne[1], w1->ne[2]), h);
+        ggml_tensor* ff = ggml_mul_mat(ctx, as_linear(ctx, w1), h);
         ff = gelu_tanh(ctx, ff);
-        ff = ggml_mul_mat(ctx, ggml_reshape_2d(ctx, w2, w2->ne[1], w2->ne[2]), ff);
+        ff = ggml_mul_mat(ctx, as_linear(ctx, w2), ff);
         x = ggml_add(ctx, x, ff);
     }
 

@@ -35,6 +35,7 @@
 #include <cinttypes>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <exception>
 #include <string>
@@ -124,6 +125,16 @@ int main() {
     const std::string model_path = mgtest::env_or_skip("MAGPIE_MODEL");
     const std::string ref_path   = mgtest::ref_dump_or_skip();
 
+    // Absolute tolerance of the logit gates. Default 1e-4 keeps the strict f32
+    // parity claim; MAGPIE_REPLAY_ATOL relaxes it so quantized models can run
+    // the same replay informationally (the reported max|d| is the drift metric).
+    float atol = 1e-4f;
+    if (const char* s = std::getenv("MAGPIE_REPLAY_ATOL")) {
+        atol = std::strtof(s, nullptr);
+        std::fprintf(stderr, "[replay] MAGPIE_REPLAY_ATOL=%g (default 1e-4)\n",
+                     (double)atol);
+    }
+
     // reference metadata + baselines
     std::string text, language;
     if (!mgtest::load_kv_str(ref_path, "ref.text", text)) return 1;
@@ -173,7 +184,7 @@ int main() {
                                     cached.res.step_logits.begin() + step_elems);
             std::vector<float> ref0(ref_logits.begin(), ref_logits.begin() + step_elems);
             ok &= mgtest::compare(got0, ref0, "replay.logits kv-cache step0",
-                                  1e-4f, 1e-5f);
+                                  atol, 1e-5f);
             // informational: full drift of the accepted cache approximation
             // (cached rows keep the prior of their step, doc section 3.7)
             compare_steps(cached.res.step_logits, ref_logits, cached.res.n_steps,
@@ -200,7 +211,7 @@ int main() {
             ok = false;
         } else {
             ok &= compare_steps(raw.res.step_logits, ref_logits, raw.res.n_steps,
-                                step_elems, "replay.logits no-cache", 1e-4f, 1e-5f);
+                                step_elems, "replay.logits no-cache", atol, 1e-5f);
         }
     } catch (const std::exception& e) {
         std::fprintf(stderr, "[replay] exception: %s\n", e.what());

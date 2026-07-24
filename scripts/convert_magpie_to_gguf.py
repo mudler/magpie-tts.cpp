@@ -112,9 +112,12 @@ _QUANTIZABLE_PATTERNS = [
     r"^(encoder|decoder|local_transformer)\.layers\.\d+\.pos_ff\.(proj|o_net)\.conv\.weight$",
     # Parallel output head (EOS argmax stream).
     r"^final_proj\.weight$",
-    # Token / audio-codebook embeddings (ggml_get_rows handles F16).
+    # Text token embedding (consumed via ggml_get_rows, F16-safe).
+    # NOTE: audio_embeddings.* deliberately NOT listed — the C++ side reads
+    # them as raw float* rows (embed_stack in magpie_tts.cpp and the LT feed),
+    # so they must stay F32. scripts/quantize_gguf.py is the allowlist
+    # authority; keep the two in sync. See docs/quantization.md.
     r"^text_embedding\.weight$",
-    r"^audio_embeddings\.\d+\.weight$",
     # Per-(frame,codebook) local-transformer heads.
     r"^local_transformer_out_projections\.\d+\.weight$",
 ]
