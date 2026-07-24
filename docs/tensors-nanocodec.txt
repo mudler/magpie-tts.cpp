@@ -1,0 +1,1001 @@
+audio_encoder.pre_conv.conv.bias	(24,)	torch.float32
+audio_encoder.pre_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.pre_conv.conv.parametrizations.weight.original1	(24, 1, 7)	torch.float32
+audio_encoder.down_sample_conv_layers.0.conv.bias	(48,)	torch.float32
+audio_encoder.down_sample_conv_layers.0.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.down_sample_conv_layers.0.conv.parametrizations.weight.original1	(48, 24, 4)	torch.float32
+audio_encoder.down_sample_conv_layers.1.conv.bias	(96,)	torch.float32
+audio_encoder.down_sample_conv_layers.1.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.down_sample_conv_layers.1.conv.parametrizations.weight.original1	(96, 48, 4)	torch.float32
+audio_encoder.down_sample_conv_layers.2.conv.bias	(192,)	torch.float32
+audio_encoder.down_sample_conv_layers.2.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.down_sample_conv_layers.2.conv.parametrizations.weight.original1	(192, 96, 8)	torch.float32
+audio_encoder.down_sample_conv_layers.3.conv.bias	(384,)	torch.float32
+audio_encoder.down_sample_conv_layers.3.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.down_sample_conv_layers.3.conv.parametrizations.weight.original1	(384, 192, 16)	torch.float32
+audio_encoder.down_sample_conv_layers.4.conv.bias	(768,)	torch.float32
+audio_encoder.down_sample_conv_layers.4.conv.parametrizations.weight.original0	(768, 1, 1)	torch.float32
+audio_encoder.down_sample_conv_layers.4.conv.parametrizations.weight.original1	(768, 384, 16)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(24, 24, 3)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(24, 24, 7)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(24,)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(24, 1, 1)	torch.float32
+audio_encoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(24, 24, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(48, 48, 3)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(48, 48, 7)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(48,)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(48, 1, 1)	torch.float32
+audio_encoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(48, 48, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(96, 96, 3)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(96, 96, 7)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(96,)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(96, 1, 1)	torch.float32
+audio_encoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(96, 96, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(192, 192, 3)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(192, 192, 7)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(192,)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(192, 1, 1)	torch.float32
+audio_encoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(192, 192, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(384, 384, 3)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(384, 384, 7)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(384,)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(384, 1, 1)	torch.float32
+audio_encoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(384, 384, 11)	torch.float32
+audio_encoder.post_conv.conv.bias	(32,)	torch.float32
+audio_encoder.post_conv.conv.parametrizations.weight.original0	(32, 1, 1)	torch.float32
+audio_encoder.post_conv.conv.parametrizations.weight.original1	(32, 768, 7)	torch.float32
+vector_quantizer.fsqs.0.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.0.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.1.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.1.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.2.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.2.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.3.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.3.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.4.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.4.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.5.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.5.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.6.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.6.num_levels	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.7.dim_base_index	(1, 4, 1)	torch.int32
+vector_quantizer.fsqs.7.num_levels	(1, 4, 1)	torch.int32
+audio_decoder.pre_conv.conv.bias	(864,)	torch.float32
+audio_decoder.pre_conv.conv.parametrizations.weight.original0	(864, 1, 1)	torch.float32
+audio_decoder.pre_conv.conv.parametrizations.weight.original1	(864, 32, 7)	torch.float32
+audio_decoder.activations.0.activation.snake_act.alpha	(1, 432, 1)	torch.float32
+audio_decoder.activations.1.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.activations.2.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.activations.3.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.activations.4.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.0.conv.bias	(432,)	torch.float32
+audio_decoder.up_sample_conv_layers.0.conv.parametrizations.weight.original0	(864, 1, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.0.conv.parametrizations.weight.original1	(864, 1, 16)	torch.float32
+audio_decoder.up_sample_conv_layers.1.conv.bias	(216,)	torch.float32
+audio_decoder.up_sample_conv_layers.1.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.1.conv.parametrizations.weight.original1	(432, 1, 16)	torch.float32
+audio_decoder.up_sample_conv_layers.2.conv.bias	(108,)	torch.float32
+audio_decoder.up_sample_conv_layers.2.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.2.conv.parametrizations.weight.original1	(216, 1, 8)	torch.float32
+audio_decoder.up_sample_conv_layers.3.conv.bias	(54,)	torch.float32
+audio_decoder.up_sample_conv_layers.3.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.3.conv.parametrizations.weight.original1	(108, 1, 4)	torch.float32
+audio_decoder.up_sample_conv_layers.4.conv.bias	(27,)	torch.float32
+audio_decoder.up_sample_conv_layers.4.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.up_sample_conv_layers.4.conv.parametrizations.weight.original1	(54, 1, 4)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(432, 432, 3)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(432, 432, 7)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 216, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(432,)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(432, 1, 1)	torch.float32
+audio_decoder.res_layers.0.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(432, 432, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(216, 216, 3)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(216, 216, 7)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 108, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(216,)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(216, 1, 1)	torch.float32
+audio_decoder.res_layers.1.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(216, 216, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(108, 108, 3)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(108, 108, 7)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 54, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(108,)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(108, 1, 1)	torch.float32
+audio_decoder.res_layers.2.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(108, 108, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(54, 54, 3)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(54, 54, 7)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 27, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(54,)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(54, 1, 1)	torch.float32
+audio_decoder.res_layers.3.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(54, 54, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.0.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(27, 27, 3)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.1.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(27, 27, 7)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.input_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.0.skip_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.input_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.1.skip_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.input_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.skip_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.input_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.bias	(27,)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original0	(27, 1, 1)	torch.float32
+audio_decoder.res_layers.4.res_blocks.2.res_blocks.2.skip_conv.conv.parametrizations.weight.original1	(27, 27, 11)	torch.float32
+audio_decoder.post_activation.activation.snake_act.alpha	(1, 13, 1)	torch.float32
+audio_decoder.post_conv.conv.bias	(1,)	torch.float32
+audio_decoder.post_conv.conv.parametrizations.weight.original0	(1, 1, 1)	torch.float32
+audio_decoder.post_conv.conv.parametrizations.weight.original1	(1, 27, 3)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.0.conv.parametrizations.weight.original1	(32, 1, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.1.conv.bias	(128,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.1.conv.parametrizations.weight.original0	(128, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.1.conv.parametrizations.weight.original1	(128, 32, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.2.conv.bias	(512,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.2.conv.parametrizations.weight.original0	(512, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.2.conv.parametrizations.weight.original1	(512, 128, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.3.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.3.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.3.conv.parametrizations.weight.original1	(1024, 512, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.4.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.4.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_layers.4.conv.parametrizations.weight.original1	(1024, 1024, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.0.conv_post.conv.parametrizations.weight.original1	(1, 1024, 3, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.0.conv.parametrizations.weight.original1	(32, 1, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.1.conv.bias	(128,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.1.conv.parametrizations.weight.original0	(128, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.1.conv.parametrizations.weight.original1	(128, 32, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.2.conv.bias	(512,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.2.conv.parametrizations.weight.original0	(512, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.2.conv.parametrizations.weight.original1	(512, 128, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.3.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.3.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.3.conv.parametrizations.weight.original1	(1024, 512, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.4.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.4.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_layers.4.conv.parametrizations.weight.original1	(1024, 1024, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.1.conv_post.conv.parametrizations.weight.original1	(1, 1024, 3, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.0.conv.parametrizations.weight.original1	(32, 1, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.1.conv.bias	(128,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.1.conv.parametrizations.weight.original0	(128, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.1.conv.parametrizations.weight.original1	(128, 32, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.2.conv.bias	(512,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.2.conv.parametrizations.weight.original0	(512, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.2.conv.parametrizations.weight.original1	(512, 128, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.3.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.3.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.3.conv.parametrizations.weight.original1	(1024, 512, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.4.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.4.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_layers.4.conv.parametrizations.weight.original1	(1024, 1024, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.2.conv_post.conv.parametrizations.weight.original1	(1, 1024, 3, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.0.conv.parametrizations.weight.original1	(32, 1, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.1.conv.bias	(128,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.1.conv.parametrizations.weight.original0	(128, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.1.conv.parametrizations.weight.original1	(128, 32, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.2.conv.bias	(512,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.2.conv.parametrizations.weight.original0	(512, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.2.conv.parametrizations.weight.original1	(512, 128, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.3.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.3.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.3.conv.parametrizations.weight.original1	(1024, 512, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.4.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.4.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_layers.4.conv.parametrizations.weight.original1	(1024, 1024, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.3.conv_post.conv.parametrizations.weight.original1	(1, 1024, 3, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.0.conv.parametrizations.weight.original1	(32, 1, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.1.conv.bias	(128,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.1.conv.parametrizations.weight.original0	(128, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.1.conv.parametrizations.weight.original1	(128, 32, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.2.conv.bias	(512,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.2.conv.parametrizations.weight.original0	(512, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.2.conv.parametrizations.weight.original1	(512, 128, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.3.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.3.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.3.conv.parametrizations.weight.original1	(1024, 512, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.4.conv.bias	(1024,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.4.conv.parametrizations.weight.original0	(1024, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_layers.4.conv.parametrizations.weight.original1	(1024, 1024, 5, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.0.discriminators.4.conv_post.conv.parametrizations.weight.original1	(1, 1024, 3, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.window	(512,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.0.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.1.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.2.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.3.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.0.discriminators.4.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.window	(1024,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.0.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.1.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.2.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.3.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.0.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.0.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.0.conv.parametrizations.weight.original1	(32, 2, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.1.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.1.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.1.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.2.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.2.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.2.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.3.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.3.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.3.conv.parametrizations.weight.original1	(32, 32, 3, 9)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.4.conv.bias	(32,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.4.conv.parametrizations.weight.original0	(32, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_layers.4.conv.parametrizations.weight.original1	(32, 32, 3, 3)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_post.conv.bias	(1,)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_post.conv.parametrizations.weight.original0	(1, 1, 1, 1)	torch.float32
+discriminator.discriminators.1.discriminators.1.discriminators.4.conv_post.conv.parametrizations.weight.original1	(1, 32, 3, 3)	torch.float32
+discriminator.discriminators.2.resample.kernel	(320, 1, 459)	torch.float32
+discriminator.discriminators.2.pre.bias	(64,)	torch.float32
+discriminator.discriminators.2.pre.parametrizations.weight.original0	(64, 1, 1)	torch.float32
+discriminator.discriminators.2.pre.parametrizations.weight.original1	(64, 9984, 1)	torch.float32
+discriminator.discriminators.2.convs.0.bias	(128,)	torch.float32
+discriminator.discriminators.2.convs.0.parametrizations.weight.original0	(128, 1, 1)	torch.float32
+discriminator.discriminators.2.convs.0.parametrizations.weight.original1	(128, 64, 5)	torch.float32
+discriminator.discriminators.2.convs.1.bias	(256,)	torch.float32
+discriminator.discriminators.2.convs.1.parametrizations.weight.original0	(256, 1, 1)	torch.float32
+discriminator.discriminators.2.convs.1.parametrizations.weight.original1	(256, 128, 5)	torch.float32
+discriminator.discriminators.2.convs.2.bias	(256,)	torch.float32
+discriminator.discriminators.2.convs.2.parametrizations.weight.original0	(256, 1, 1)	torch.float32
+discriminator.discriminators.2.convs.2.parametrizations.weight.original1	(256, 256, 5)	torch.float32
+discriminator.discriminators.2.conv_post.bias	(1,)	torch.float32
+discriminator.discriminators.2.conv_post.parametrizations.weight.original0	(1, 1, 1)	torch.float32
+discriminator.discriminators.2.conv_post.parametrizations.weight.original1	(1, 256, 3)	torch.float32
+mel_loss_fn.mel_features.0.window	(32,)	torch.float32
+mel_loss_fn.mel_features.0.fb	(1, 5, 17)	torch.float32
+mel_loss_fn.mel_features.1.window	(64,)	torch.float32
+mel_loss_fn.mel_features.1.fb	(1, 10, 33)	torch.float32
+mel_loss_fn.mel_features.2.window	(128,)	torch.float32
+mel_loss_fn.mel_features.2.fb	(1, 20, 65)	torch.float32
+mel_loss_fn.mel_features.3.window	(256,)	torch.float32
+mel_loss_fn.mel_features.3.fb	(1, 40, 129)	torch.float32
+mel_loss_fn.mel_features.4.window	(512,)	torch.float32
+mel_loss_fn.mel_features.4.fb	(1, 80, 257)	torch.float32
+mel_loss_fn.mel_features.5.window	(1024,)	torch.float32
+mel_loss_fn.mel_features.5.fb	(1, 160, 513)	torch.float32
+stft_loss_fn.loss_fns.0.window	(32,)	torch.float32
+stft_loss_fn.loss_fns.1.window	(64,)	torch.float32
+stft_loss_fn.loss_fns.2.window	(128,)	torch.float32
+stft_loss_fn.loss_fns.3.window	(256,)	torch.float32
+stft_loss_fn.loss_fns.4.window	(512,)	torch.float32
+stft_loss_fn.loss_fns.5.window	(1024,)	torch.float32
+# total params: 106.1M

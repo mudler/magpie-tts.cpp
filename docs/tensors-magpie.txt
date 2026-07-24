@@ -1,0 +1,261 @@
+_baked_embedding_T	()	torch.int64
+_baked_embedding_D	()	torch.int64
+baked_context_embedding_len	(5,)	torch.int64
+audio_embeddings.0.weight	(2024, 768)	torch.float32
+audio_embeddings.1.weight	(2024, 768)	torch.float32
+audio_embeddings.2.weight	(2024, 768)	torch.float32
+audio_embeddings.3.weight	(2024, 768)	torch.float32
+audio_embeddings.4.weight	(2024, 768)	torch.float32
+audio_embeddings.5.weight	(2024, 768)	torch.float32
+audio_embeddings.6.weight	(2024, 768)	torch.float32
+audio_embeddings.7.weight	(2024, 768)	torch.float32
+audio_embeddings.8.weight	(2024, 768)	torch.float32
+audio_embeddings.9.weight	(2024, 768)	torch.float32
+audio_embeddings.10.weight	(2024, 768)	torch.float32
+audio_embeddings.11.weight	(2024, 768)	torch.float32
+audio_embeddings.12.weight	(2024, 768)	torch.float32
+audio_embeddings.13.weight	(2024, 768)	torch.float32
+audio_embeddings.14.weight	(2024, 768)	torch.float32
+audio_embeddings.15.weight	(2024, 768)	torch.float32
+text_embedding.weight	(3359, 768)	torch.float32
+encoder.norm_out.weight	(768,)	torch.float32
+encoder.layers.0.norm_self.weight	(768,)	torch.float32
+encoder.layers.0.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.0.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.0.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.0.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.0.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.0.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.layers.1.norm_self.weight	(768,)	torch.float32
+encoder.layers.1.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.1.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.1.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.1.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.1.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.1.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.layers.2.norm_self.weight	(768,)	torch.float32
+encoder.layers.2.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.2.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.2.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.2.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.2.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.2.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.layers.3.norm_self.weight	(768,)	torch.float32
+encoder.layers.3.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.3.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.3.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.3.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.3.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.3.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.layers.4.norm_self.weight	(768,)	torch.float32
+encoder.layers.4.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.4.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.4.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.4.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.4.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.4.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.layers.5.norm_self.weight	(768,)	torch.float32
+encoder.layers.5.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+encoder.layers.5.self_attention.o_net.weight	(768, 768)	torch.float32
+encoder.layers.5.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+encoder.layers.5.norm_pos_ff.weight	(768,)	torch.float32
+encoder.layers.5.pos_ff.proj.conv.weight	(3072, 768, 3)	torch.float32
+encoder.layers.5.pos_ff.o_net.conv.weight	(768, 3072, 3)	torch.float32
+encoder.position_embeddings.weight	(2048, 768)	torch.float32
+decoder.norm_out.weight	(768,)	torch.float32
+decoder.layers.0.norm_self.weight	(768,)	torch.float32
+decoder.layers.0.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.0.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.0.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.0.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.0.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.0.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.0.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.0.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.0.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.0.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.0.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.1.norm_self.weight	(768,)	torch.float32
+decoder.layers.1.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.1.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.1.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.1.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.1.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.1.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.1.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.1.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.1.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.1.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.1.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.2.norm_self.weight	(768,)	torch.float32
+decoder.layers.2.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.2.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.2.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.2.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.2.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.2.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.2.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.2.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.2.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.2.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.2.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.3.norm_self.weight	(768,)	torch.float32
+decoder.layers.3.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.3.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.3.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.3.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.3.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.3.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.3.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.3.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.3.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.3.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.3.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.4.norm_self.weight	(768,)	torch.float32
+decoder.layers.4.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.4.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.4.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.4.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.4.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.4.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.4.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.4.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.4.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.4.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.4.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.5.norm_self.weight	(768,)	torch.float32
+decoder.layers.5.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.5.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.5.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.5.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.5.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.5.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.5.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.5.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.5.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.5.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.5.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.6.norm_self.weight	(768,)	torch.float32
+decoder.layers.6.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.6.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.6.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.6.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.6.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.6.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.6.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.6.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.6.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.6.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.6.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.7.norm_self.weight	(768,)	torch.float32
+decoder.layers.7.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.7.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.7.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.7.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.7.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.7.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.7.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.7.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.7.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.7.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.7.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.8.norm_self.weight	(768,)	torch.float32
+decoder.layers.8.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.8.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.8.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.8.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.8.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.8.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.8.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.8.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.8.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.8.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.8.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.9.norm_self.weight	(768,)	torch.float32
+decoder.layers.9.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.9.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.9.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.9.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.9.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.9.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.9.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.9.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.9.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.9.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.9.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.10.norm_self.weight	(768,)	torch.float32
+decoder.layers.10.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.10.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.10.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.10.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.10.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.10.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.10.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.10.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.10.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.10.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.10.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.layers.11.norm_self.weight	(768,)	torch.float32
+decoder.layers.11.self_attention.causal_mask	(1, 1, 2048, 2048)	torch.float32
+decoder.layers.11.self_attention.o_net.weight	(768, 768)	torch.float32
+decoder.layers.11.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+decoder.layers.11.norm_xattn_query.weight	(768,)	torch.float32
+decoder.layers.11.cross_attention.o_net.weight	(768, 128)	torch.float32
+decoder.layers.11.cross_attention.q_net.weight	(128, 768)	torch.float32
+decoder.layers.11.cross_attention.kv_net.weight	(256, 768)	torch.float32
+decoder.layers.11.norm_xattn_memory.weight	(768,)	torch.float32
+decoder.layers.11.norm_pos_ff.weight	(768,)	torch.float32
+decoder.layers.11.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+decoder.layers.11.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+decoder.position_embeddings.weight	(2048, 768)	torch.float32
+final_proj.weight	(32384, 768)	torch.float32
+final_proj.bias	(32384,)	torch.float32
+local_transformer.layers.0.norm_self.weight	(768,)	torch.float32
+local_transformer.layers.0.self_attention.causal_mask	(1, 1, 18, 18)	torch.float32
+local_transformer.layers.0.self_attention.o_net.weight	(768, 768)	torch.float32
+local_transformer.layers.0.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+local_transformer.layers.0.norm_pos_ff.weight	(768,)	torch.float32
+local_transformer.layers.0.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+local_transformer.layers.0.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+local_transformer.layers.1.norm_self.weight	(768,)	torch.float32
+local_transformer.layers.1.self_attention.causal_mask	(1, 1, 18, 18)	torch.float32
+local_transformer.layers.1.self_attention.o_net.weight	(768, 768)	torch.float32
+local_transformer.layers.1.self_attention.qkv_net.weight	(2304, 768)	torch.float32
+local_transformer.layers.1.norm_pos_ff.weight	(768,)	torch.float32
+local_transformer.layers.1.pos_ff.proj.conv.weight	(3072, 768, 1)	torch.float32
+local_transformer.layers.1.pos_ff.o_net.conv.weight	(768, 3072, 1)	torch.float32
+local_transformer.position_embeddings.weight	(18, 768)	torch.float32
+local_transformer_out_projections.0.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.0.bias	(2024,)	torch.float32
+local_transformer_out_projections.1.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.1.bias	(2024,)	torch.float32
+local_transformer_out_projections.2.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.2.bias	(2024,)	torch.float32
+local_transformer_out_projections.3.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.3.bias	(2024,)	torch.float32
+local_transformer_out_projections.4.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.4.bias	(2024,)	torch.float32
+local_transformer_out_projections.5.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.5.bias	(2024,)	torch.float32
+local_transformer_out_projections.6.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.6.bias	(2024,)	torch.float32
+local_transformer_out_projections.7.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.7.bias	(2024,)	torch.float32
+local_transformer_out_projections.8.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.8.bias	(2024,)	torch.float32
+local_transformer_out_projections.9.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.9.bias	(2024,)	torch.float32
+local_transformer_out_projections.10.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.10.bias	(2024,)	torch.float32
+local_transformer_out_projections.11.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.11.bias	(2024,)	torch.float32
+local_transformer_out_projections.12.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.12.bias	(2024,)	torch.float32
+local_transformer_out_projections.13.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.13.bias	(2024,)	torch.float32
+local_transformer_out_projections.14.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.14.bias	(2024,)	torch.float32
+local_transformer_out_projections.15.weight	(2024, 768)	torch.float32
+local_transformer_out_projections.15.bias	(2024,)	torch.float32
+baked_context_embedding.weight	(5, 166656)	torch.float32
+# total params: 359.7M
