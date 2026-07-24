@@ -1,0 +1,9 @@
+build/
+models/
+.venv/
+__pycache__/
+*.gguf
+*.nemo
+*.npz
+*.wav
+.DS_Store
