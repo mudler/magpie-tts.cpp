@@ -24,6 +24,14 @@ option(MAGPIE_GGML_HIP      "Enable ggml HIP backend"            OFF)
 # consumer TU -- hence a directory-scope definition ahead of add_subdirectory.
 add_compile_definitions(GGML_MAX_NAME=128)
 
+# ggml must live INSIDE libmagpie-tts (static objects, PIC). ggml's own
+# CMakeLists defaults BUILD_SHARED_LIBS to ON, which would make the shared
+# magpie-tts .so depend on external libggml-base.so/libggml-cpu.so -- fatal for
+# dlopen consumers (LocalAI purego) that ship a single self-contained library.
+# A plain CACHE default (no FORCE) still honours an explicit
+# -DBUILD_SHARED_LIBS=ON on the command line.
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries (ggml is linked statically into magpie-tts by default)")
+
 # Forward backend toggles to ggml
 set(GGML_CUDA   ${MAGPIE_GGML_CUDA}   CACHE BOOL "" FORCE)
 set(GGML_METAL  ${MAGPIE_GGML_METAL}  CACHE BOOL "" FORCE)
