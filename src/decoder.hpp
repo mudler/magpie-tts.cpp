@@ -44,6 +44,13 @@ struct magpie_dec_kv_cache {
     int32_t capacity  = 0;   // max sequence length (context + audio steps)
     int32_t n_stream  = 0;
     bool    cross_valid = false;
+    // Cross-attn K/V are allocated at `text_capacity` (= encoder max_positions)
+    // rows; `t_text` is the utterance's actual memory length, recorded by the
+    // step that fills the cache (cross_valid is flipped at graph-BUILD time by
+    // magpie_decoder_step_graph -- valid because the next build always happens
+    // after this graph was computed, mirroring how the caller advances n_past).
+    int32_t t_text        = 0;
+    int32_t text_capacity = 0;
 
     // Allocates the cache tensors for `capacity` positions. Throws on OOM.
     void init(const magpie_model& model, int32_t capacity, int32_t n_stream = 2);
@@ -55,6 +62,9 @@ struct magpie_dec_kv_cache {
 
 // Outputs of one decoder step (tensors live in the step's graph context).
 struct magpie_dec_step_out {
+    // Full post-norm_out hidden states of the NEW positions -- parity/debug.
+    // F32 [d_model, n_new, n_stream].
+    ggml_tensor* hidden = nullptr;
     // Last-position hidden state after norm_out -- the local transformer's
     // input latent. F32 [d_model, n_stream].
     ggml_tensor* latent = nullptr;

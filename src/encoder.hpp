@@ -4,6 +4,7 @@
 // FFN. Runs ONCE per text chunk; its output is the decoder cross-attention
 // memory for every AR step.
 #include <cstdint>
+#include <vector>
 
 struct ggml_context;
 struct ggml_cgraph;
@@ -19,6 +20,11 @@ struct magpie_model;
 // n_layers x (pre-norm self-attn (causal), pre-norm conv-FFN) -> norm_out.
 // The RAW output is returned; the decoder applies each layer's own
 // norm_xattn_memory to it inside the decoder graph (apply_norm_to_cond).
+//
+// layer_outputs (optional, parity/debug): when non-null, receives the
+// post-residual output of every layer (pre norm_out), one F32
+// [d_model, n_tokens] tensor per layer, in layer order.
 ggml_tensor* magpie_encoder_graph(ggml_context* ctx, ggml_cgraph* graph,
                                   const magpie_model& model,
-                                  ggml_tensor* tokens);
+                                  ggml_tensor* tokens,
+                                  std::vector<ggml_tensor*>* layer_outputs = nullptr);

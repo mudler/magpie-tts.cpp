@@ -47,6 +47,7 @@ set(MAGPIE_SOURCES
     src/encoder.cpp
     src/decoder.cpp
     src/local_transformer.cpp
+    src/prior.cpp
     src/codec.cpp
     src/magpie_tts.cpp
     src/magpie_tts_capi.cpp
