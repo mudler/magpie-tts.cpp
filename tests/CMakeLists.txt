@@ -8,3 +8,8 @@ function(mg_add_test name)
 endfunction()
 
 mg_add_test(test_model_load)
+mg_add_test(test_tokenizer_parity)
+mg_add_test(test_codec_parity)
+mg_add_test(test_encoder_parity)
+mg_add_test(test_decoder_parity)
+mg_add_test(test_lt_parity)
